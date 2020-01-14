@@ -1,1 +1,3 @@
 app_env: production
+exclude:
+  - developer/styleguide
