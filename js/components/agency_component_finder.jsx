@@ -106,7 +106,14 @@ class AgencyComponentFinder extends Component {
       return datum.agency ? `${datum.title} (${datum.agency.name})` : datum.title;
     }
 
+    const typeaheadClassNames = {
+      wrapper: ['twitter-typeahead', this.props.isAnnualDataForm ? 'usa-search-bg-light' : false]
+          .filter(className => className)
+          .join(' ')
+    };
+
     this.typeahead = $(this.typeaheadInput).typeahead({
+      classNames: typeaheadClassNames,
       highlight: true,
       hint: false,
     }, {
@@ -175,8 +182,13 @@ class AgencyComponentFinder extends Component {
       buttonClasses.push('usa-button-primary');
     }
 
+    const formClasses = ['usa-search', 'usa-search-big'];
+    if (this.props.isAnnualDataForm) {
+      formClasses.push('usa-search-annual-data');
+    }
+
     return (
-      <form className="usa-search usa-search-big" onSubmit={onSubmit}>
+      <form className={formClasses.join(' ')} onSubmit={onSubmit}>
         <div role="search">
           <label className="usa-sr-only" htmlFor="search-field-big">Search for an agency</label>
           <input
@@ -186,7 +198,8 @@ class AgencyComponentFinder extends Component {
             placeholder="Type agency name"
             ref={(input) => { this.typeaheadInput = input; }}
           />
-          <button
+
+          {!this.props.isAnnualDataForm && <button
             className={buttonClasses.join(' ')}
             disabled={loading}
             type="submit"
@@ -194,7 +207,7 @@ class AgencyComponentFinder extends Component {
             <span className="usa-search-submit-text">
               { loading ? `Loading… ${agencyFinderDataProgress}%` : 'Search' }
             </span>
-          </button>
+          </button>}
         </div>
       </form>
     );

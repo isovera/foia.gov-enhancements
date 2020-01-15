@@ -20,7 +20,7 @@
     margin: 0;
   }
 
-  .tt-input {
+  &:not(.usa-search-bg-light) .tt-input {
     border: none;
   }
 
