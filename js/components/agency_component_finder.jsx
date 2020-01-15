@@ -107,8 +107,9 @@ class AgencyComponentFinder extends Component {
     }
 
     const typeaheadClassNames = {
-      wrapper: ['twitter-typeahead', this.props.isAnnualDataForm ? 'usa-search-bg-light' : false]
-          .filter(className => className)
+      wrapper: ['twitter-typeahead', ...(this.props.isAnnualDataForm ? ['usa-search-bg-light', 'usa-reset-width'] : [])]
+          .join(' '),
+      input: ['tt-input', ...(this.props.isAnnualDataForm ? ['usa-reset-width'] : [])]
           .join(' ')
     };
 
