@@ -54,10 +54,6 @@ class FoiaReportFormSectionTwo extends Component {
               </fieldset>
             </div>
             <div className="form-group usa-width-one-half visually-hidden">
-              <h2 className="foia-header-blue-line--h2">
-                Modal content
-              </h2>
-
               {/* Begin Modal Inner HTML */}
               <div className="form-group">
                 <h3 className="sans">Add Data Filter</h3>
