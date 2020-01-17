@@ -53,7 +53,7 @@ class FoiaReportFormSectionTwo extends Component {
                 </div>
               </fieldset>
             </div>
-            <div className="form-group usa-width-one-half">
+            <div className="form-group usa-width-one-half visually-hidden">
               <h2 className="foia-header-blue-line--h2">
                 Modal content
               </h2>
