@@ -46,7 +46,7 @@ class FoiaReportFormSectionTwo extends Component {
                     <option value="report_exclusions">Exclusions</option>
                     <option value="report_proactive">Proactive</option>
                   </select>
-                  <button className="usa-button usa-button-outline usa-button-small">Edit Attributes</button>
+                  <button className="usa-button usa-button-outline usa-button-small">Filter Results</button>
                 </div>
                 <div className="form-group field use-dark-icons usa-grid">
                   <a href="#"><span className="icon-plus"></span>Add Another Data Type</a>
