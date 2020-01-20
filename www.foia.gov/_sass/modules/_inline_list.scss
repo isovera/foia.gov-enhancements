@@ -10,6 +10,7 @@
 
   li {
     display: inline-block;
+    line-height: 1;
     padding: 0 1rem;
     position: relative;
   }
@@ -18,10 +19,7 @@
     padding-left: 0;
   }
 
-  li + li:before {
-    color: $color-primary-darker;
-    content: "|";
-    left: 0;
-    position: absolute;
+  li + li {
+    border-left: 1px solid $color-primary-darker;
   }
 }
