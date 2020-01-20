@@ -21,7 +21,7 @@ class FoiaReportFormSectionThree extends Component {
               <legend className="usa-sr-only">Select Fiscal Years</legend>
               <ul className="usa-unstyled-list usa-grid checkbox-list">
                 <li className="usa-width-one-sixth">
-                  <input id="2019" type="checkbox" name="fiscal-year" value="2019" checked />
+                  <input id="2019" type="checkbox" name="fiscal-year" value="2019" />
                   <label htmlFor="2019">2019</label>
                 </li>
                 <li className="usa-width-one-sixth">
