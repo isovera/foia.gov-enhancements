@@ -19,7 +19,7 @@ class FoiaReportFormSectionThree extends Component {
             </legend>
             <fieldset className="usa-fieldset-inputs">
               <legend className="usa-sr-only">Select Fiscal Years</legend>
-              <ul className="usa-unstyled-list usa-grid usa-checkbox-list--grid">
+              <ul className="usa-unstyled-list usa-grid checkbox-list">
                 <li className="usa-width-one-sixth">
                   <input id="2019" type="checkbox" name="fiscal-year" value="2019" checked />
                   <label htmlFor="2019">2019</label>
@@ -69,10 +69,12 @@ class FoiaReportFormSectionThree extends Component {
                   <label htmlFor="2008">2008</label>
                 </li>
               </ul>
-              <ul className="inline-list">
-                <li><a href="#">Select All</a></li>
-                <li><a href="#">Select None</a></li>
-              </ul>
+              <div className="form-group">
+                <ul className="inline-list">
+                  <li><a href="#">Select All</a></li>
+                  <li><a href="#">Select None</a></li>
+                </ul>
+              </div>
             </fieldset>
           </fieldset>
         </div>
