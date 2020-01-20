@@ -1,12 +1,10 @@
-/**
- * Display an unstyled list with separators between list elements.
- *
- * @example
- * <ul class="inline-list">
- *   <li><a href="#">Select All</a></li>
- *   <li><a href="#">Select None</a></li>
- * </ul>
- */
+// Display an unstyled list with separators between list elements.
+//
+// @example
+// <ul class="inline-list">
+//   <li><a href="#">Select All</a></li>
+//   <li><a href="#">Select None</a></li>
+// </ul>
 .inline-list {
   @extend .usa-unstyled-list;
 
