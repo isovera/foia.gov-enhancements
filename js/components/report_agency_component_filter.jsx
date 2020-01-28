@@ -36,6 +36,13 @@ class ReportAgencyComponentFilter extends Component {
     });
   }
 
+  handleModalClose() {
+    dispatcher.dispatch({
+      type: types.SELECTED_AGENCY_COMPONENTS_DISCARD_TEMPORARY,
+      index: this.props.selectedAgency.index,
+    });
+  }
+
   buildModalContent() {
     const components = this.props.selectedAgency.tempSelectedComponents
       || this.props.selectedAgency.components;
@@ -98,6 +105,7 @@ class ReportAgencyComponentFilter extends Component {
           triggerText="Select Agency Components"
           onSubmit={this.handleModalSubmit}
           canSubmit={() => true}
+          onClose={this.handleModalClose}
         />
         }
       </div>

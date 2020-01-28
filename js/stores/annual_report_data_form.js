@@ -174,6 +174,25 @@ class AnnualReportDataFormStore extends Store {
         this.__emitChange();
         break;
       }
+
+      case types.SELECTED_AGENCY_COMPONENTS_DISCARD_TEMPORARY: {
+        const { index } = payload;
+        const selectedAgencies = [...this.state.selectedAgencies];
+        const agency = Object.assign({}, selectedAgencies[index]);
+
+        if (!Object.prototype.hasOwnProperty.call(agency, 'tempSelectedComponents')) {
+          break;
+        }
+
+        // Discard any changes being held.
+        delete agency.tempSelectedComponents;
+        selectedAgencies.splice(agency.index, 1, agency);
+        Object.assign(this.state, {
+          selectedAgencies,
+        });
+        this.__emitChange();
+        break;
+      }
       default:
         break;
     }
