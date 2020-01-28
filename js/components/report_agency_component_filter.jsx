@@ -19,6 +19,7 @@ class ReportAgencyComponentFilter extends Component {
 
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleModalSubmit = this.handleModalSubmit.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   handleCheckboxChange(e, component) {
