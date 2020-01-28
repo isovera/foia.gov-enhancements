@@ -3,6 +3,7 @@ import { List, Map } from 'immutable';
 
 import dispatcher from '../util/dispatcher';
 import { types } from '../actions/report';
+import agencyComponentStore from './agency_component';
 
 class AnnualReportDataFormStore extends Store {
   constructor(_dispatcher) {
@@ -29,6 +30,33 @@ class AnnualReportDataFormStore extends Store {
 
         if (!selectedIsValid || !previousIsValid) {
           break;
+        }
+
+        // Ensure that we don't overwrite previous state if someone selects the same
+        // agency in the same field for some reason, presumably accidentally.
+        if (selectedAgency.id === previousAgency.id) {
+          break;
+        }
+
+        if (selectedAgency.type === 'agency') {
+          selectedAgency.components = agencyComponentStore
+            .getAgencyComponentsForAgency(selectedAgency.id)
+            .map(component => ({
+              abbreviation: component.abbreviation,
+              id: component.id,
+              isOverall: false,
+              selected: true,
+            }))
+            // Components with the same abbreviation as the agency must not be displayed
+            // as an option to select as a child of a selected agency.  These will instead be
+            // replaced by the Agency Overall option.
+            .filter(component => component.abbreviation !== selectedAgency.abbreviation)
+            .push({
+              abbreviation: 'Agency Overall',
+              id: `overall:${selectedAgency.id}`,
+              isOverall: true,
+              selected: true,
+            });
         }
 
         // Get a copy of the selected agencies state so that we don't
