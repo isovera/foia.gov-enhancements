@@ -20,6 +20,7 @@ class ReportAgencyComponentFilter extends Component {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleModalSubmit = this.handleModalSubmit.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+    this.modalCanSubmit = this.modalCanSubmit.bind(this);
   }
 
   handleCheckboxChange(e, component) {
@@ -42,6 +43,13 @@ class ReportAgencyComponentFilter extends Component {
       type: types.SELECTED_AGENCY_COMPONENTS_DISCARD_TEMPORARY,
       index: this.props.selectedAgency.index,
     });
+  }
+
+  modalCanSubmit() {
+    const components = this.props.selectedAgency.tempSelectedComponents
+      || this.props.selectedAgency.components;
+
+    return components.filter(item => item.selected).size > 0;
   }
 
   buildModalContent() {
@@ -72,6 +80,9 @@ class ReportAgencyComponentFilter extends Component {
             <ul className="usa-unstyled-list usa-grid checkbox-list checkbox-list--in-modal">
               {checkboxes}
             </ul>
+            {!this.modalCanSubmit() &&
+              <p className="usa-input-error-message">One or more components are required.</p>
+            }
           </fieldset>
         </div>
       </div>
@@ -105,7 +116,7 @@ class ReportAgencyComponentFilter extends Component {
           ariaLabel="Filter agency components"
           triggerText="Select Agency Components"
           onSubmit={this.handleModalSubmit}
-          canSubmit={() => true}
+          canSubmit={this.modalCanSubmit}
           onClose={this.handleModalClose}
         />
         }
