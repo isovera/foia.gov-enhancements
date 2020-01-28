@@ -13,10 +13,6 @@ class ReportAgencyComponentFilter extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selectedComponents: this.props.selectedAgency.components || [],
-    };
-
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleModalSubmit = this.handleModalSubmit.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
