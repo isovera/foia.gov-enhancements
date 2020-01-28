@@ -18,6 +18,7 @@ class ReportAgencyComponentFilter extends Component {
     };
 
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleModalSubmit = this.handleModalSubmit.bind(this);
   }
 
   handleCheckboxChange(e, component) {
@@ -25,6 +26,13 @@ class ReportAgencyComponentFilter extends Component {
       type: types.SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE,
       agencyComponent: component,
       agency: this.props.selectedAgency,
+    });
+  }
+
+  handleModalSubmit() {
+    dispatcher.dispatch({
+      type: types.SELECTED_AGENCY_COMPONENTS_MERGE_TEMPORARY,
+      index: this.props.selectedAgency.index,
     });
   }
 
@@ -84,11 +92,13 @@ class ReportAgencyComponentFilter extends Component {
           selectedAgency={selectedAgency}
         />
         {agencyIsSelected && !isCentralizedAgency &&
-          <FoiaModal
-            modalContent={this.buildModalContent()}
-            ariaLabel="Filter agency components"
-            triggerText="Select Agency Components"
-          />
+        <FoiaModal
+          modalContent={this.buildModalContent()}
+          ariaLabel="Filter agency components"
+          triggerText="Select Agency Components"
+          onSubmit={this.handleModalSubmit}
+          canSubmit={() => true}
+        />
         }
       </div>
     );

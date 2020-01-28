@@ -149,6 +149,31 @@ class AnnualReportDataFormStore extends Store {
         break;
       }
 
+      case types.SELECTED_AGENCY_COMPONENTS_MERGE_TEMPORARY: {
+        const { index } = payload;
+        const selectedAgencies = [...this.state.selectedAgencies];
+        const agency = Object.assign({}, selectedAgencies[index]);
+
+        if (!Object.prototype.hasOwnProperty.call(agency, 'tempSelectedComponents')) {
+          break;
+        }
+
+        // Assign the tempSelectedComponents property to the components property,
+        // effectively committing the selections made when updating component selections
+        // in the SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE event handler, and get
+        // rid of the temporary list of selected components, to avoid confusion on what
+        // the current state is.
+        agency.components = agency.tempSelectedComponents;
+        delete agency.tempSelectedComponents;
+
+        selectedAgencies.splice(index, 1, agency);
+
+        Object.assign(this.state, {
+          selectedAgencies,
+        });
+        this.__emitChange();
+        break;
+      }
       default:
         break;
     }
