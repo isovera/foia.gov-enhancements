@@ -21,7 +21,9 @@ class FoiaModal extends Component {
     this.setState({ modalIsOpen: true });
   }
 
-  closeModal() {
+  closeModal(e) {
+    this.props.onClose(e);
+
     this.setState({ modalIsOpen: false });
   }
 
@@ -70,6 +72,7 @@ FoiaModal.propTypes = {
   modalAdditionalLink: PropTypes.object,
   canSubmit: PropTypes.func,
   onSubmit: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 FoiaModal.defaultProps = {
@@ -77,6 +80,7 @@ FoiaModal.defaultProps = {
   modalAdditionalLink: null,
   canSubmit: () => true,
   onSubmit: e => e,
+  onClose: e => e,
 };
 
 export default FoiaModal;
