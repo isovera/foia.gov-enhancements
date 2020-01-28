@@ -4,28 +4,27 @@
  */
 
 import React, { Component, createRef } from 'react';
-// import Tabulator from "tabulator-tables";
+import Tabulator from "tabulator-tables";
 
 class FoiaReportResultsTable extends Component {
-  // constructor() {
-  //   super();
+  constructor() {
+    super();
 
-  //   this.tabulatorElement = null;
+    this.tabulatorElement = null;
+    this.tabulator = null;
+    this.tableData = [];
+  }
 
-  //    tabulator = null;
-  //   tableData = [];
-  // }
-
-  // componentDidMount() {
-  //   this.tabulator = new Tabulator(this.el, {
-  //     data: this.tableData,
-  //     reactiveData:true,
-  //     columns: [],
-  //   });
-  // }
+  componentDidMount() {
+    this.tabulator = new Tabulator(this.el, {
+      data: this.tableData,
+      reactiveData:true,
+      columns: [],
+    });
+  }
 
   render() {
-    return (<div className="FoiaReportResultsTable" />);
+    return (<div ref={el => (el)} />);
   }
 }
 
