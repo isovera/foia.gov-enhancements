@@ -14,6 +14,7 @@ class FoiaReportResultsTable extends Component {
     this.tabulatorElement = null;
     this.tabulator = null;
     this.tableData = [];
+    this.columns = [];
   }
 
   componentDidMount() {
