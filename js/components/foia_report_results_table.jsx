@@ -4,7 +4,7 @@
  */
 
 import React, { Component, createRef } from 'react';
-import Tabulator from "tabulator-tables";
+import Tabulator from 'tabulator-tables';
 
 class FoiaReportResultsTable extends Component {
   constructor() {
@@ -24,7 +24,7 @@ class FoiaReportResultsTable extends Component {
   }
 
   render() {
-    return (<div ref={el => (el)} />);
+    return (<div ref={el => (this.el = el)} />);
   }
 }
 
