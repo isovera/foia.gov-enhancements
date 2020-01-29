@@ -18,7 +18,7 @@ class FoiaReportResultsTable extends Component {
   }
 
   componentDidMount() {
-    this.tabulator = new Tabulator(this.el, {
+    this.tabulator = new Tabulator(this.element, {
       data: this.tableData,
       reactiveData:true,
       columns: [],
@@ -26,7 +26,7 @@ class FoiaReportResultsTable extends Component {
   }
 
   render() {
-    return (<div ref={el => (this.el = el)} />);
+    return (<div ref={(ref) => { this.element = ref; }} />);
   }
 }
 
