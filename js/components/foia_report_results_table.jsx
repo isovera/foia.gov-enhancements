@@ -5,6 +5,7 @@
 
 import React, { Component, createRef } from 'react';
 import Tabulator from 'tabulator-tables';
+import 'tabulator-tables/dist/css/tabulator.min.css';
 
 class FoiaReportResultsTable extends Component {
   constructor() {
