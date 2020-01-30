@@ -24,12 +24,13 @@ class AnnualReportStore extends Store {
 
         const updatedReports = reports.withMutations((mutableReports) => {
           payload.annualReports.forEach((report) => {
+            // Merge new values if a report already exists since most report requests won't
+            // contain all data.
             if (mutableReports.has(report.id)) {
-              mutableReports
-                .update(
-                  report.id,
-                  previousValue => previousValue.merge(new Map(report)),
-                );
+              mutableReports.update(
+                report.id,
+                previousValue => previousValue.merge(new Map(report)),
+              );
             } else {
               mutableReports.set(report.id, new Map(report));
             }
