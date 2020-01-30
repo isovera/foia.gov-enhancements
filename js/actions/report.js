@@ -1,6 +1,7 @@
 import assert from 'assert';
 import axios from 'axios';
 import settings from 'settings';
+import { List } from 'immutable';
 
 import dispatcher from '../util/dispatcher';
 import jsonapi from '../util/json_api';
@@ -182,4 +183,70 @@ export const reportActions = {
     return Promise.resolve();
   },
 
+  /**
+   * Get reports from the api, only including fields from the named sections.
+   *
+   * @param {List<string> | Array<string>} sections
+   *   A list of the section names to retrieve, which will be transformed into
+   *   a map of includes and fields on the jsonapi request.
+   * @param {Function | null} withModifications
+   *   An optional function that will get the JsonapiParams request object.
+   *   This function allows modifications to the request such as adding filters
+   *   or limits.  The function must return the updated request object.
+   * @returns {PromiseLike<T> | Promise<T> | *}
+   *
+   * @see js/util/json_api_params.js
+   * @see js/stores/annual_report_data_types.js
+   * @see www.foia.gov/api/annual-report-form/report_data_map.json
+   */
+  fetchAnnualReportData(sections = List(), withModifications = null) {
+    dispatcher.dispatch({
+      type: types.ANNUAL_REPORT_DATA_FETCH,
+    });
+
+    // @todo: build include fields based on section name given.
+
+    const referenceFields = {
+      annual_foia_report_data: ['title', 'field_foia_annual_report_yr', 'field_agency', 'field_agency_components'],
+      field_agency: ['name', 'abbreviation'],
+      field_agency_components: ['title'],
+    };
+
+    let request = jsonapi.params();
+    if (Object.keys(referenceFields).length > 0) {
+      Object.keys(referenceFields).forEach((field) => {
+        if (field !== 'annual_foia_report_data') {
+          request.include(field);
+        }
+        request.fields(field, referenceFields[field]);
+      });
+    }
+
+    if (withModifications && typeof withModifications === 'function') {
+      request = withModifications(request);
+    } else {
+      request = request.limit(5);
+    }
+
+    return request
+      .paginate('/annual_foia_report', reportActions.receiveAnnualReportData)
+      .then(reportActions.completeAnnualReportData);
+  },
+
+  receiveAnnualReportData(annualReports) {
+    dispatcher.dispatch({
+      type: types.ANNUAL_REPORT_DATA_RECEIVE,
+      annualReports,
+    });
+
+    return Promise.resolve(annualReports);
+  },
+
+  completeAnnualReportData() {
+    dispatcher.dispatch({
+      type: types.ANNUAL_REPORT_DATA_COMPLETE,
+    });
+
+    return Promise.resolve();
+  },
 };
