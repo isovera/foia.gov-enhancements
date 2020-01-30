@@ -1,6 +1,7 @@
-import { List } from 'immutable';
+import { Map } from 'immutable';
 import { Store } from 'flux/utils';
 import dispatcher from '../util/dispatcher';
+import { types } from '../actions/report';
 
 
 class AnnualReportStore extends Store {
@@ -8,7 +9,7 @@ class AnnualReportStore extends Store {
     super(_dispatcher);
 
     this.state = {
-      reports: new List(),
+      reports: new Map(),
     };
   }
 
@@ -18,6 +19,30 @@ class AnnualReportStore extends Store {
 
   __onDispatch(payload) {
     switch (payload.type) {
+      case types.ANNUAL_REPORT_DATA_RECEIVE: {
+        const { reports } = this.state;
+
+        const updatedReports = reports.withMutations((mutableReports) => {
+          payload.annualReports.forEach((report) => {
+            if (mutableReports.has(report.id)) {
+              mutableReports
+                .update(
+                  report.id,
+                  previousValue => previousValue.merge(new Map(report)),
+                );
+            } else {
+              mutableReports.set(report.id, new Map(report));
+            }
+          });
+        });
+
+        Object.assign(this.state, {
+          reports: updatedReports,
+        });
+        this.__emitChange();
+
+        break;
+      }
       default:
         break;
     }
