@@ -208,7 +208,9 @@ export const reportActions = {
       field_agency_components: ['title'],
     };
 
-    let request = jsonapi.params();
+    // The default limit could be updated in the
+    // withModifications function if it needs to be.
+    let request = jsonapi.params().limit(5);
     if (Object.keys(referenceFields).length > 0) {
       Object.keys(referenceFields).forEach((field) => {
         if (field !== 'annual_foia_report_data') {
@@ -220,8 +222,6 @@ export const reportActions = {
 
     if (withModifications && typeof withModifications === 'function') {
       request = withModifications(request);
-    } else {
-      request = request.limit(5);
     }
 
     return request
