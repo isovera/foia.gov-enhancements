@@ -185,7 +185,7 @@ export const reportActions = {
    * @param {List<string> | Array<string>} sections
    *   A list of the section names to retrieve, which will be transformed into
    *   a map of includes and fields on the jsonapi request.
-   * @param {Function | null} withModifications
+   * @param {Function | null} modifier
    *   An optional function that will get the JsonapiParams request object.
    *   This function allows modifications to the request such as adding filters
    *   or limits.  The function must return the updated request object.
@@ -195,7 +195,7 @@ export const reportActions = {
    * @see js/stores/annual_report_data_types.js
    * @see www.foia.gov/api/annual-report-form/report_data_map.json
    */
-  fetchAnnualReportData(sections = List(), withModifications = null) {
+  fetchAnnualReportData(sections = List(), modifier = null) {
     dispatcher.dispatch({
       type: types.ANNUAL_REPORT_DATA_FETCH,
     });
@@ -209,7 +209,7 @@ export const reportActions = {
     };
 
     // The default limit could be updated in the
-    // withModifications function if it needs to be.
+    // modifier function if it needs to be.
     let request = jsonapi.params().limit(5);
     if (Object.keys(referenceFields).length > 0) {
       Object.keys(referenceFields).forEach((field) => {
@@ -220,8 +220,8 @@ export const reportActions = {
       });
     }
 
-    if (withModifications && typeof withModifications === 'function') {
-      request = withModifications(request);
+    if (modifier && typeof modifier === 'function') {
+      request = modifier(request);
     }
 
     return request
