@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import Tabulator from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 
