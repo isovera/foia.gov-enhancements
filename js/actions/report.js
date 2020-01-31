@@ -7,6 +7,7 @@ import dispatcher from '../util/dispatcher';
 import jsonapi from '../util/json_api';
 import localapi from '../util/local_api';
 import date from '../util/current_date';
+import reportRequestBuilder from '../util/foia_annual_report_request_builder';
 
 // Action types to identify an action
 export const types = {
@@ -204,31 +205,18 @@ export const reportActions = {
       type: types.ANNUAL_REPORT_DATA_FETCH,
     });
 
-    // @todo: build include fields based on section name given.
-
-    const referenceFields = {
-      annual_foia_report_data: ['title', 'field_foia_annual_report_yr', 'field_agency', 'field_agency_components'],
-      field_agency: ['name', 'abbreviation'],
-      field_agency_components: ['title'],
-    };
-
     // The default limit could be updated in the
     // modifier function if it needs to be.
-    let request = jsonapi.params().limit(5);
-    if (Object.keys(referenceFields).length > 0) {
-      Object.keys(referenceFields).forEach((field) => {
-        if (field !== 'annual_foia_report_data') {
-          request.include(field);
-        }
-        request.fields(field, referenceFields[field]);
-      });
-    }
+    let builder = reportRequestBuilder;
+    builder.request.limit(5);
+    builder = builder.includeSections(sections);
 
     if (modifier && typeof modifier === 'function') {
-      request = modifier(request);
+      builder = modifier(builder);
     }
 
-    return request
+    return builder
+      .request
       .paginate('/annual_foia_report', reportActions.receiveAnnualReportData)
       .then(reportActions.completeAnnualReportData);
   },
