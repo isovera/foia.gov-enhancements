@@ -89,9 +89,11 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
   }
 
   /**
-   * Include
-   * @param sections
-   * @param includeFields
+   * Include sections and their fields in the request.
+   *
+   * @param {array | List } sections
+   *   An array of section group ids that can be retrieved from
+   *   the annualReportDataTypesStore.
    * @returns {FoiaAnnualReportRequestBuilder}
    */
   includeSections(sections) {
