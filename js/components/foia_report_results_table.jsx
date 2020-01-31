@@ -25,9 +25,9 @@ class FoiaReportResultsTable extends Component {
     ];
     const sampleColumns = [
       { title: 'Compare', formatter: 'rowSelection', align: 'center', headerSort: false, cellClick: function(e, cell) { cell.getRow().toggleSelect(); } },
-      { title: 'Agency', field: 'agency', width: 150 },
-      { title: 'Component', field: 'component', align: 'left' },
-      { title: 'Fiscal year', field: 'fiscalYear' },
+      { title: 'Agency', field: 'agency', align: 'center' },
+      { title: 'Component', field: 'component', align: 'center' },
+      { title: 'Fiscal year', field: 'fiscalYear', align: 'center' },
     ];
 
     this.tableData = sampleData;
