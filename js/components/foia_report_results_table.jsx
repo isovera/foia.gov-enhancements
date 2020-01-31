@@ -18,10 +18,23 @@ class FoiaReportResultsTable extends Component {
   }
 
   componentDidMount() {
+    const sampleData = [
+      { id: 1, agency: 'Administrative Conference of the United States', component: 'asdf', fiscalYear: '2017' },
+      { id: 2, agency: 'Central Intelligence Agency', component: 'asdf' , fiscalYear: '2016' },
+      { id: 3, agency: 'Department of Agriculture', component: 'asdf', fiscalYear: '2014' },
+    ];
+    const sampleColumns = [
+      { title: 'Agency', field: 'agency', width: 150 },
+      { title: 'Component', field: 'component', align: 'left' },
+      { title: 'Fiscal year', field: 'fiscalYear' },
+    ];
+
+    this.tableData = sampleData;
+    this.tableColumns = sampleColumns;
     this.tabulator = new Tabulator(this.element, {
       data: this.tableData,
-      reactiveData:true,
-      columns: [],
+      columns: this.tableColumns,
+      reactiveData: true,
     });
   }
 
