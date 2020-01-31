@@ -24,6 +24,7 @@ class FoiaReportResultsTable extends Component {
       { id: 3, agency: 'Department of Agriculture', component: 'asdf', fiscalYear: '2014' },
     ];
     const sampleColumns = [
+      { title: 'Compare', formatter: 'rowSelection', align: 'center', headerSort: false, cellClick: function(e, cell) { cell.getRow().toggleSelect(); } },
       { title: 'Agency', field: 'agency', width: 150 },
       { title: 'Component', field: 'component', align: 'left' },
       { title: 'Fiscal year', field: 'fiscalYear' },
