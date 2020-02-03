@@ -19,9 +19,9 @@ class FoiaReportResultsTable extends Component {
 
   componentDidMount() {
     const sampleData = [
-      { id: 1, agency: 'Administrative Conference of the United States', component: 'asdf', fiscalYear: '2017' },
-      { id: 2, agency: 'Central Intelligence Agency', component: 'asdf', fiscalYear: '2016' },
-      { id: 3, agency: 'Department of Agriculture', component: 'asdf', fiscalYear: '2014' },
+      { id: 1, agency: 'Administrative Conference of the United States', component: 'ACUS', fiscalYear: '2017' },
+      { id: 2, agency: 'Central Intelligence Agency', component: 'CIA', fiscalYear: '2016' },
+      { id: 3, agency: 'Department of Agriculture', component: 'AMS', fiscalYear: '2014' },
     ];
     const sampleColumns = [
       { title: 'Compare', formatter: 'rowSelection', align: 'center', headerSort: false, cellClick: (e, cell) => { cell.getRow().toggleSelect(); } },
