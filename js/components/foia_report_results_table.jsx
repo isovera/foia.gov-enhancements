@@ -20,11 +20,11 @@ class FoiaReportResultsTable extends Component {
   componentDidMount() {
     const sampleData = [
       { id: 1, agency: 'Administrative Conference of the United States', component: 'asdf', fiscalYear: '2017' },
-      { id: 2, agency: 'Central Intelligence Agency', component: 'asdf' , fiscalYear: '2016' },
+      { id: 2, agency: 'Central Intelligence Agency', component: 'asdf', fiscalYear: '2016' },
       { id: 3, agency: 'Department of Agriculture', component: 'asdf', fiscalYear: '2014' },
     ];
     const sampleColumns = [
-      { title: 'Compare', formatter: 'rowSelection', align: 'center', headerSort: false, cellClick: function(e, cell) { cell.getRow().toggleSelect(); } },
+      { title: 'Compare', formatter: 'rowSelection', align: 'center', headerSort: false, cellClick: (e, cell) => { cell.getRow().toggleSelect(); } },
       { title: 'Agency', field: 'agency', align: 'center' },
       { title: 'Component', field: 'component', align: 'center' },
       { title: 'Fiscal year', field: 'fiscalYear', align: 'center' },
