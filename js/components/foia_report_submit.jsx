@@ -7,36 +7,24 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 class FoiaReportDataSubmit extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.handleChange = this.handleChange.bind(this);
-  // }
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  componentDidMount() {
+  handleSubmit() {
     reportActions.fetchAnnualReportData(['group_v_a_foia_requests_received', 'group_overall_vb1_main']);
   }
-  // static getSections() {
-  //   reportActions.fetchAnnualReportData(['group_v_a_foia_requests_received']);
-  // }
-
-  // handleChange() {
-  //   const report = this.props.report = 'f';
-  // }
 
   render() {
     return (
-      <div>f</div>
+      <div className="form-group form-group_footer">
+        <button onClick={this.handleSubmit} className="usa-button usa-button-big usa-button-primary-alt">View Report</button>
+        <button onClick="" className="usa-button usa-button-big usa-button-outline">Download CSV</button>
+        <a>Clear Search</a>
+      </div>
     );
   }
 }
-
-// FoiaReportDataSubmit.propTypes = {
-//   report: PropTypes.any,
-// };
-//
-// FoiaReportDataSubmit.defaultProps = {
-//   report: 'none',
-// };
-
 
 export default FoiaReportDataSubmit;
