@@ -101,10 +101,17 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
       ? List(sections)
       : List([]);
 
+    console.log(sectionNames);
+
     let { dataTypes } = annualReportDataTypesStore.getState();
+    console.log(dataTypes);
+
+
     dataTypes = dataTypes.filter((group, groupName) => (
       sectionNames.includes(groupName)
     ));
+
+    console.log(dataTypes);
 
     const includes = dataTypes.reduce((entities, section) => {
       if (!Object.prototype.hasOwnProperty.call(section, 'includes')) {
