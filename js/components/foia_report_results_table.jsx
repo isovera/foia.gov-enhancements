@@ -14,6 +14,8 @@ class FoiaReportResultsTable extends Component {
     this.tabulator = null;
     this.tableData = [];
     this.columns = [];
+
+    this.downloadCSV = this.downloadCSV.bind(this);
   }
 
   componentDidMount() {
@@ -37,8 +39,17 @@ class FoiaReportResultsTable extends Component {
     });
   }
 
+  downloadCSV() {
+    this.tabulator.download("csv", "data.csv");
+  }
+
   render() {
-    return (<div ref={(ref) => { this.element = ref; }} />);
+    return (
+      <div>
+        <div ref={(ref) => { this.element = ref; }} />
+        <button onClick={this.downloadCSV}>Download CSV</button>
+      </div>
+    );
   }
 }
 
