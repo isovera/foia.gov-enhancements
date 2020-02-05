@@ -12,8 +12,9 @@ class FoiaReportDataSubmit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
-    reportActions.fetchAnnualReportData(['group_v_a_foia_requests_received', 'group_overall_vb1_main']);
+  handleSubmit(e) {
+    e.preventDefault();
+    reportActions.fetchAnnualReportData(['group_v_a_foia_requests_received', 'group_iv_exemption_3_statutes']);
   }
 
   render() {

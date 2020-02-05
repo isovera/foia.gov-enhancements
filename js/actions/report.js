@@ -209,10 +209,11 @@ export const reportActions = {
     // modifier function if it needs to be.
     let builder = reportRequestBuilder;
     builder.request.limit(5);
-    builder = builder.includeSections(sections, agencyOverall);
+    builder = builder.includeSections(sections);
 
-    console.log(builder);
-
+    if (agencyOverall) {
+      builder.includeAgencyOverall(sections);
+    }
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);
     }
@@ -228,7 +229,7 @@ export const reportActions = {
       type: types.ANNUAL_REPORT_DATA_RECEIVE,
       annualReports,
     });
-    // console.log(annualReports);
+
     return Promise.resolve(annualReports);
   },
 
