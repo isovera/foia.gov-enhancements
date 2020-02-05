@@ -3,11 +3,8 @@ import { Container } from 'flux/utils';
 import FoiaReportFormSectionOne from '../components/foia_report_form_section_one';
 import FoiaReportFormSectionTwo from '../components/foia_report_form_section_two';
 import FoiaReportFormSectionThree from '../components/foia_report_form_section_three';
-<<<<<<< HEAD
-import FoiaReportResultsTable from '../components/foia_report_results_table';
-=======
 import FoiaReportDataSubmit from '../components/foia_report_submit';
->>>>>>> FOIA-316: Adds shell for report submit component.
+import FoiaReportResultsTable from '../components/foia_report_results_table';
 
 import annualReportDataFormStore from '../stores/annual_report_data_form';
 import agencyComponentStore from '../stores/agency_component';
