@@ -39,15 +39,15 @@ class FoiaReportResultsTable extends Component {
     });
   }
 
-  downloadCSV() {
-    this.tabulator.download("csv", "data.csv");
+  downloadCSV(reportType) {
+    this.tabulator.download('csv', `foia-${reportType}.csv`);
   }
 
   render() {
     return (
       <div>
         <div ref={(ref) => { this.element = ref; }} />
-        <button onClick={this.downloadCSV}>Download CSV</button>
+        <button onClick={() => this.downloadCSV('[report-type]')}>Download CSV</button>
       </div>
     );
   }
