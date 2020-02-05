@@ -200,7 +200,7 @@ export const reportActions = {
    * @see js/stores/annual_report_data_types.js
    * @see www.foia.gov/api/annual-report-form/report_data_map.json
    */
-  fetchAnnualReportData(sections = List(), modifier = null) {
+  fetchAnnualReportData(sections = List(), agencyOverall = true, modifier = null) {
     dispatcher.dispatch({
       type: types.ANNUAL_REPORT_DATA_FETCH,
     });
@@ -209,7 +209,9 @@ export const reportActions = {
     // modifier function if it needs to be.
     let builder = reportRequestBuilder;
     builder.request.limit(5);
-    builder = builder.includeSections(sections);
+    builder = builder.includeSections(sections, agencyOverall);
+
+    console.log(builder);
 
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);

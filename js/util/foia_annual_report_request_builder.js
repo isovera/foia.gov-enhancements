@@ -96,30 +96,50 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
    *   the annualReportDataTypesStore.
    * @returns {FoiaAnnualReportRequestBuilder}
    */
-  includeSections(sections) {
+  includeSections(sections, agencyOverall) {
     const sectionNames = Array.isArray(sections) || List.isList(sections)
       ? List(sections)
       : List([]);
 
-    console.log(sectionNames);
-
     let { dataTypes } = annualReportDataTypesStore.getState();
-    console.log(dataTypes);
-
 
     dataTypes = dataTypes.filter((group, groupName) => (
       sectionNames.includes(groupName)
     ));
 
-    console.log(dataTypes);
-
     const includes = dataTypes.reduce((entities, section) => {
+      if (agencyOverall) {
+        section.fields.map(item =>
+          entities.push(item.overall_field),
+        );
+      }
       if (!Object.prototype.hasOwnProperty.call(section, 'includes')) {
         return entities;
       }
-
-      return entities.push(...section.includes);
+      console.log(entities);
+      entities.push(section.includes);
+      return entities;
     }, List([]));
+
+    // console.log(includes);
+
+
+    // if (agencyOverall) {
+    //   const iterator = sections.fields.values();
+    //   let include = iterator.next();
+    //   while (!include.done) {
+    //
+    //     // include.overall_field
+    //     console.log(include.overall_field);
+    //
+    //     // this.request.fields('annual_foia_report_data', path);
+    //
+    //     include = iterator.next();
+    //   }
+    //   // includes = '';
+    // }
+
+    // console.log(Object.prototype);
 
     const iterator = includes.values();
     let include = iterator.next();
