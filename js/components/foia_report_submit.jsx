@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-//
-// import dispatcher from '../util/dispatcher';
+import annualReportDataFormStore from '../stores/annual_report_data_form';
 import { reportActions } from '../actions/report';
-import PropTypes from 'prop-types';
-import { List } from 'immutable';
 
 class FoiaReportDataSubmit extends Component {
   constructor(props) {
     super(props);
+    this.getSections = this.getSections.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  getSections() {
+    const selectedDataTypes = annualReportDataFormStore.state.selectedDataTypes;
+    const sections = [];
+    if (selectedDataTypes.length > 0) {
+      selectedDataTypes.forEach((item) => {
+        sections.push(item.id);
+      });
+    }
+    return sections;
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    reportActions.fetchAnnualReportData(['group_v_a_foia_requests_received', 'group_iv_exemption_3_statutes']);
+    reportActions.fetchAnnualReportData(this.getSections());
   }
 
   render() {
