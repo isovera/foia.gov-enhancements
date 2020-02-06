@@ -9,7 +9,7 @@ class FoiaReportDataSubmit extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  getSections() {
+  static getSections() {
     const selectedDataTypes = annualReportDataFormStore.state.selectedDataTypes;
     const sections = [];
     if (selectedDataTypes.length > 0) {
