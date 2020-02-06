@@ -167,6 +167,10 @@
                 "filter": false,
                 "overall_field": false
             }
+        ],
+        "includes": [
+            "field_foia_requests_vb2",
+            "field_foia_requests_vb2.field_foia_req_vb2_info"
         ]
     },
     {
