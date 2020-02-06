@@ -149,6 +149,10 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     ));
 
     const includes = dataTypes.reduce((entities, section) => {
+      if (!Object.prototype.hasOwnProperty.call(section, 'fields')) {
+        return entities;
+      }
+
       return entities.push(
         section.fields.map(item =>
           item.overall_field,
@@ -166,6 +170,7 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
             this.request.fields('annual_foia_report_data', path[0]);
           } else {
             this.request.fields(path[0], path[1]);
+            /* eslint no-underscore-dangle: ["error", { "allow": ["_params"] }] */
             if (!this.request._params.include.includes(path[0])) {
               this.request.include(path[0]);
             }

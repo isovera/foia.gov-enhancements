@@ -190,6 +190,9 @@ export const reportActions = {
    * @param {List<string> | Array<string>} sections
    *   A list of the section names to retrieve, which will be transformed into
    *   a map of includes and fields on the jsonapi request.
+   * @param {Boolean} agencyOverall
+   *   A boolean to determine if the request should include the agency overall
+   *   fields if the section.
    * @param {Function | null} modifier
    *   An optional function that will get the JsonapiParams request object.
    *   This function allows modifications to the request such as adding filters
