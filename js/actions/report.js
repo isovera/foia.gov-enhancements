@@ -217,6 +217,7 @@ export const reportActions = {
     if (agencyOverall) {
       builder.includeAgencyOverall(sections);
     }
+
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);
     }

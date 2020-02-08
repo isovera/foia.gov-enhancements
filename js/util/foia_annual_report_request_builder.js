@@ -166,24 +166,17 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     let include = iterator.next();
     while (!include.done) {
       include.value.forEach((field) => {
-        if (field !== false) {
+        if (field) {
           const path = field.split('.');
           if (path.length === 1) {
             this.request.fields('annual_foia_report_data', path[0]);
           } else {
             this.request.fields(path[0], path[1]);
-            /* eslint no-underscore-dangle: ["error", { "allow": ["_params"] }] */
-            if (!this.request._params.include.includes(path[0])) {
-              this.request.include(path[0]);
-            }
           }
         }
       });
       include = iterator.next();
     }
-
-    // @todo remove this once json api params no longer need to go in console.
-    console.log(this);
 
     return this;
   }
@@ -197,6 +190,7 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
         this.request.fields(field, fields[field]);
       });
     }
+
     return this;
   }
 }

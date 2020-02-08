@@ -5,11 +5,13 @@ import { reportActions } from '../actions/report';
 class FoiaReportDataSubmit extends Component {
   constructor(props) {
     super(props);
-    this.getSections = this.getSections.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getSections = this.getSections.bind(this);
   }
 
-  static getSections() {
+  // @todo: Pass annualReportDataFormStore.state as a prop to this component,
+  // then pass that entire object to reportActions.fetchAnnualReportData().
+  getSections() {
     const selectedDataTypes = annualReportDataFormStore.state.selectedDataTypes;
     const sections = [];
     if (selectedDataTypes.length > 0) {
