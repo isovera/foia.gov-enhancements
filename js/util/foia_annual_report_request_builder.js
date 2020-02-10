@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import { JsonApi } from './json_api';
 import annualReportDataTypesStore from '../stores/annual_report_data_types';
 
