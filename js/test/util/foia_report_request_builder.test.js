@@ -378,8 +378,7 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       expect(requestBuilder.request._params, '_params').to.have.property('include');
       expect(requestBuilder.request._params.include.sort(), 'requestBuilder.request._params.include')
         .to
-        .deep
-        .equal([
+        .eql([
           'field_agency',
           'field_agency_components',
           'field_statute_iv',
@@ -392,18 +391,19 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       expect(
         Object.keys(requestBuilder.request._params.fields).sort(),
         'requestBuilder.request._params.fields keys'
-      ).to.equal([
+      ).to.eql([
         'annual_foia_report_data',
         'field_agency',
         'field_agency_components',
         'field_foia_requests_va',
         'field_statute_iv',
+        'field_statute_iv.field_agency_component_inf'
       ].sort());
 
       expect(
         requestBuilder.request._params.fields.annual_foia_report_data.sort(),
         'requestBuilder.request._params.fields.annual_foia_report_data'
-      ).to.equal([
+      ).to.eql([
           'title',
           'field_foia_annual_report_yr',
           'field_agency',
@@ -417,21 +417,21 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       expect(
         requestBuilder.request._params.fields.field_agency.sort(),
         'requestBuilder.request._params.fields.field_agency',
-      ).to.equal(
+      ).to.eql(
         ['name', 'abbreviation'].sort()
       );
       expect(
         requestBuilder.request._params.fields.field_agency_components.sort(),
         'requestBuilder.request._params.fields.field_agency_components'
-      ).to.equal(['title']);
+      ).to.eql(['title']);
       expect(
         requestBuilder.request._params.fields.field_foia_requests_va.sort(),
         'requestBuilder.request._params.fields.field_foia_requests_va'
-      ).to.equal(['field_agency_component']);
+      ).to.eql(['field_agency_component']);
       expect(
         requestBuilder.request._params.fields.field_statute_iv.sort(),
         'requestBuilder.request._params.fields.field_statute_iv'
-      ).to.equal(['field_agency_component_inf']);
+      ).to.eql(['field_agency_component_inf']);
     });
   });
 })
