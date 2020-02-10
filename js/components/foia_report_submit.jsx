@@ -1,30 +1,16 @@
 import React, { Component } from 'react';
-import annualReportDataFormStore from '../stores/annual_report_data_form';
+import PropTypes from 'prop-types';
 import { reportActions } from '../actions/report';
 
 class FoiaReportDataSubmit extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getSections = this.getSections.bind(this);
-  }
-
-  // @todo: Pass annualReportDataFormStore.state as a prop to this component,
-  // then pass that entire object to reportActions.fetchAnnualReportData().
-  getSections() {
-    const selectedDataTypes = annualReportDataFormStore.state.selectedDataTypes;
-    const sections = [];
-    if (selectedDataTypes.length > 0) {
-      selectedDataTypes.forEach((item) => {
-        sections.push(item.id);
-      });
-    }
-    return sections;
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    reportActions.fetchAnnualReportData(this.getSections());
+    reportActions.fetchAnnualReportData(this.props.selectedDataTypes);
   }
 
   render() {
@@ -37,5 +23,13 @@ class FoiaReportDataSubmit extends Component {
     );
   }
 }
+
+FoiaReportDataSubmit.propTypes = {
+  selectedDataTypes: PropTypes.array,
+};
+
+FoiaReportDataSubmit.defaultProps = {
+  selectedDataTypes: [],
+};
 
 export default FoiaReportDataSubmit;

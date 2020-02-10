@@ -97,21 +97,18 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
    * @returns {FoiaAnnualReportRequestBuilder}
    */
   includeSections(sections) {
-    const sectionNames = Array.isArray(sections) || List.isList(sections)
+    const dataTypes = Array.isArray(sections) || List.isList(sections)
       ? List(sections)
       : List([]);
 
-    let { dataTypes } = annualReportDataTypesStore.getState();
-    dataTypes = dataTypes.filter((group, groupName) => (
-      sectionNames.includes(groupName)
-    ));
-
     const includes = dataTypes.reduce((entities, section) => {
-      if (!Object.prototype.hasOwnProperty.call(section, 'includes')) {
+      const includesForType = annualReportDataTypesStore.getIncludesForDataType(section.id);
+      if (includesForType.length <= 0) {
         return entities;
       }
 
-      return entities.push(...section.includes);
+
+      return entities.push(...includesForType);
     }, List([]));
 
     const iterator = includes.values();

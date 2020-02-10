@@ -107,7 +107,9 @@ class AnnualReportDataPage extends Component {
             fiscalYears={fiscalYears}
             selectedFiscalYears={selectedFiscalYears}
           />
-          <FoiaReportDataSubmit />
+          <FoiaReportDataSubmit
+            selectedDataTypes={selectedDataTypes}
+          />
         </form>
         <FoiaReportResultsTable />
       </div>
