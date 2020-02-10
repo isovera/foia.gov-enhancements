@@ -375,8 +375,8 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       const { selectedDataTypes } = annualReportDataFormStore.getState();
       requestBuilder.includeSections(selectedDataTypes, false);
 
-      expect(requestBuilder.request._params).to.have.property('include');
-      expect(requestBuilder.request._params.include.sort())
+      expect(requestBuilder.request._params, '_params').to.have.property('include');
+      expect(requestBuilder.request._params.include.sort(), 'requestBuilder.request._params.include')
         .to
         .deep
         .equal([
@@ -388,8 +388,11 @@ describe('FoiaAnnualReportRequestBuilder', () => {
           'field_foia_requests_va',
         ].sort());
 
-      expect(requestBuilder.request._params).to.have.property('fields');
-      expect(Object.keys(requestBuilder.request._params.fields).sort()).to.equal([
+      expect(requestBuilder.request._params, '_params').to.have.property('fields');
+      expect(
+        Object.keys(requestBuilder.request._params.fields).sort(),
+        'requestBuilder.request._params.fields keys'
+      ).to.equal([
         'annual_foia_report_data',
         'field_agency',
         'field_agency_components',
@@ -397,7 +400,10 @@ describe('FoiaAnnualReportRequestBuilder', () => {
         'field_statute_iv',
       ].sort());
 
-      expect(requestBuilder.request._params.fields.annual_foia_report_data.sort()).to.equal([
+      expect(
+        requestBuilder.request._params.fields.annual_foia_report_data.sort(),
+        'requestBuilder.request._params.fields.annual_foia_report_data'
+      ).to.equal([
           'title',
           'field_foia_annual_report_yr',
           'field_agency',
@@ -408,14 +414,24 @@ describe('FoiaAnnualReportRequestBuilder', () => {
           'field_footnotes_iv'
         ].sort()
       );
-
-
-      expect(requestBuilder.request._params.fields.field_agency.sort()).to.equal(
+      expect(
+        requestBuilder.request._params.fields.field_agency.sort(),
+        'requestBuilder.request._params.fields.field_agency',
+      ).to.equal(
         ['name', 'abbreviation'].sort()
       );
-      expect(requestBuilder.request._params.fields.field_agency_components.sort()).to.equal(['title']);
-      expect(requestBuilder.request._params.fields.field_foia_requests_va.sort()).to.equal(['field_agency_component']);
-      expect(requestBuilder.request._params.fields.field_statute_iv.sort()).to.equal(['field_agency_component_inf']);
+      expect(
+        requestBuilder.request._params.fields.field_agency_components.sort(),
+        'requestBuilder.request._params.fields.field_agency_components'
+      ).to.equal(['title']);
+      expect(
+        requestBuilder.request._params.fields.field_foia_requests_va.sort(),
+        'requestBuilder.request._params.fields.field_foia_requests_va'
+      ).to.equal(['field_agency_component']);
+      expect(
+        requestBuilder.request._params.fields.field_statute_iv.sort(),
+        'requestBuilder.request._params.fields.field_statute_iv'
+      ).to.equal(['field_agency_component_inf']);
     });
   });
 })
