@@ -14,9 +14,171 @@ chai.use(sinonChai);
 describe('FoiaAnnualReportRequestBuilder', () => {
   let requestBuilder;
   let sandbox;
+  let buildDataTypeStubs = () => {
+    const dataTypes = new OrderedMap({
+      group_v_a_foia_requests_received: {
+        id: 'group_v_a_foia_requests_received',
+        label: 'Requests',
+        fields: [
+          {
+            id: 'field_foia_requests_va.field_req_pend_start_yr',
+            label: 'Number of Requests Pending as of Start of Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_pend_start_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_received_yr',
+            label: 'Number of Requests Received in Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_received_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_processed_yr',
+            label: 'Number of Requests Processed in Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_processed_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_pend_end_yr',
+            label: 'Number of Requests Pending as of End of Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_pend_end_yr',
+          },
+          {
+            id: 'field_footnotes_va',
+            label: 'Footnotes',
+            filter: false,
+            overall_field: false,
+          },
+        ],
+        includes: ['field_foia_requests_va', 'field_foia_requests_va.field_agency_component'],
+      },
+      group_iv_exemption_3_statutes: {
+        id: 'group_iv_exemption_3_statutes',
+        label: ' - Exemption 3 Statutes',
+        fields: [
+          {
+            id: 'field_statute_iv.field_statute',
+            label: 'Statute',
+            filter: false,
+            overall_field: false,
+          },
+          {
+            id: 'field_statute_iv.field_type_of_info_withheld',
+            label: 'Type of Information Withheld',
+            filter: false,
+            overall_field: false,
+          }, {
+            id: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
+            label: 'Number of Times Relied Upon',
+            filter: true,
+            overall_field: 'field_statute_iv.field_total_num_relied_by_agency',
+          },
+          {
+            id: 'field_footnotes_iv',
+            label: 'Footnotes',
+            filter: false,
+            overall_field: false,
+          },
+        ],
+        includes: ['field_statute_iv', 'field_statute_iv.field_agency_component_inf'],
+      },
+    });
+    sandbox.stub(AnnualReportDataTypesStore.prototype, 'getState').returns({ dataTypes });
+    sandbox.stub(annualReportDataTypesStore, 'state').value({ dataTypes });
+
+    const selectedDataTypes = [
+      {
+        id: 'group_v_a_foia_requests_received',
+        index: 0,
+        fields: [
+          {
+            id: 'field_foia_requests_va.field_req_pend_start_yr',
+            label: 'Number of Requests Pending as of Start of Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_pend_start_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_received_yr',
+            label: 'Number of Requests Received in Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_received_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_processed_yr',
+            label: 'Number of Requests Processed in Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_processed_yr',
+          }, {
+            id: 'field_foia_requests_va.field_req_pend_end_yr',
+            label: 'Number of Requests Pending as of End of Fiscal Year',
+            filter: true,
+            overall_field: 'field_overall_req_pend_end_yr',
+          },
+          {
+            id: 'field_footnotes_va',
+            label: 'Footnotes',
+            filter: false,
+            overall_field: false,
+          },
+        ],
+        filterOptions: [
+          {
+            value: 'field_foia_requests_va.field_req_pend_start_yr',
+            label: 'Number of Requests Pending as of Start of Fiscal Year',
+          }, {
+            value: 'field_foia_requests_va.field_req_received_yr',
+            label: 'Number of Requests Received in Fiscal Year',
+          }, {
+            value: 'field_foia_requests_va.field_req_processed_yr',
+            label: 'Number of Requests Processed in Fiscal Year',
+          }, {
+            value: 'field_foia_requests_va.field_req_pend_end_yr',
+            label: 'Number of Requests Pending as of End of Fiscal Year',
+          },
+        ],
+        filter: {
+          applied: false,
+          filterField: 'field_foia_requests_va.field_req_pend_start_yr',
+          op: 'greater_than',
+          compareValue: '',
+        },
+      },
+      {
+        id: 'group_iv_exemption_3_statutes',
+        index: 1,
+        fields: [
+          {
+            id: 'field_statute_iv.field_statute',
+            label: 'Statute',
+            filter: false,
+            overall_field: false,
+          }, {
+            id: 'field_statute_iv.field_type_of_info_withheld',
+            label: 'Type of Information Withheld',
+            filter: false,
+            overall_field: false,
+          }, {
+            id: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
+            label: 'Number of Times Relied Upon',
+            filter: true,
+            overall_field: 'field_statute_iv.field_total_num_relied_by_agency',
+          }, { id: 'field_footnotes_iv', label: 'Footnotes', filter: false, overall_field: false }],
+        filterOptions: [
+          {
+            value: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
+            label: 'Number of Times Relied Upon',
+          },
+        ],
+        filter: {
+          applied: false,
+          filterField: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
+          op: 'greater_than',
+          compareValue: '',
+        },
+      },
+    ];
+    sandbox.stub(AnnualReportDataFormStore.prototype, 'getState').returns({ selectedDataTypes });
+  };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    buildDataTypeStubs();
   });
 
   afterEach(() => {
@@ -209,168 +371,6 @@ describe('FoiaAnnualReportRequestBuilder', () => {
   });
 
   describe('::includeSections', () => {
-    beforeEach(() => {
-      const dataTypes = new OrderedMap({
-        group_v_a_foia_requests_received: {
-          id: 'group_v_a_foia_requests_received',
-          label: 'Requests',
-          fields: [
-            {
-              id: 'field_foia_requests_va.field_req_pend_start_yr',
-              label: 'Number of Requests Pending as of Start of Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_pend_start_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_received_yr',
-              label: 'Number of Requests Received in Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_received_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_processed_yr',
-              label: 'Number of Requests Processed in Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_processed_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_pend_end_yr',
-              label: 'Number of Requests Pending as of End of Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_pend_end_yr',
-            },
-            {
-              id: 'field_footnotes_va',
-              label: 'Footnotes',
-              filter: false,
-              overall_field: false,
-            },
-          ],
-          includes: ['field_foia_requests_va', 'field_foia_requests_va.field_agency_component'],
-        },
-        group_iv_exemption_3_statutes: {
-          id: 'group_iv_exemption_3_statutes',
-          label: ' - Exemption 3 Statutes',
-          fields: [
-            {
-              id: 'field_statute_iv.field_statute',
-              label: 'Statute',
-              filter: false,
-              overall_field: false,
-            },
-            {
-              id: 'field_statute_iv.field_type_of_info_withheld',
-              label: 'Type of Information Withheld',
-              filter: false,
-              overall_field: false,
-            }, {
-              id: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
-              label: 'Number of Times Relied Upon',
-              filter: true,
-              overall_field: 'field_statute_iv.field_total_num_relied_by_agency',
-            },
-            {
-              id: 'field_footnotes_iv',
-              label: 'Footnotes',
-              filter: false,
-              overall_field: false,
-            },
-          ],
-          includes: ['field_statute_iv', 'field_statute_iv.field_agency_component_inf'],
-        },
-      });
-      sinon.stub(AnnualReportDataTypesStore.prototype, 'getState').returns({ dataTypes });
-      sinon.stub(annualReportDataTypesStore, 'state').value({ dataTypes });
-
-      const selectedDataTypes = [
-        {
-          id: 'group_v_a_foia_requests_received',
-          index: 0,
-          fields: [
-            {
-              id: 'field_foia_requests_va.field_req_pend_start_yr',
-              label: 'Number of Requests Pending as of Start of Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_pend_start_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_received_yr',
-              label: 'Number of Requests Received in Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_received_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_processed_yr',
-              label: 'Number of Requests Processed in Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_processed_yr',
-            }, {
-              id: 'field_foia_requests_va.field_req_pend_end_yr',
-              label: 'Number of Requests Pending as of End of Fiscal Year',
-              filter: true,
-              overall_field: 'field_overall_req_pend_end_yr',
-            },
-            {
-              id: 'field_footnotes_va',
-              label: 'Footnotes',
-              filter: false,
-              overall_field: false,
-            },
-          ],
-          filterOptions: [
-            {
-              value: 'field_foia_requests_va.field_req_pend_start_yr',
-              label: 'Number of Requests Pending as of Start of Fiscal Year',
-            }, {
-              value: 'field_foia_requests_va.field_req_received_yr',
-              label: 'Number of Requests Received in Fiscal Year',
-            }, {
-              value: 'field_foia_requests_va.field_req_processed_yr',
-              label: 'Number of Requests Processed in Fiscal Year',
-            }, {
-              value: 'field_foia_requests_va.field_req_pend_end_yr',
-              label: 'Number of Requests Pending as of End of Fiscal Year',
-            },
-          ],
-          filter: {
-            applied: false,
-            filterField: 'field_foia_requests_va.field_req_pend_start_yr',
-            op: 'greater_than',
-            compareValue: '',
-          },
-        },
-        {
-          id: 'group_iv_exemption_3_statutes',
-          index: 1,
-          fields: [
-            {
-              id: 'field_statute_iv.field_statute',
-              label: 'Statute',
-              filter: false,
-              overall_field: false,
-            }, {
-              id: 'field_statute_iv.field_type_of_info_withheld',
-              label: 'Type of Information Withheld',
-              filter: false,
-              overall_field: false,
-            }, {
-              id: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
-              label: 'Number of Times Relied Upon',
-              filter: true,
-              overall_field: 'field_statute_iv.field_total_num_relied_by_agency',
-            }, { id: 'field_footnotes_iv', label: 'Footnotes', filter: false, overall_field: false }],
-          filterOptions: [
-            {
-              value: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
-              label: 'Number of Times Relied Upon',
-            },
-          ],
-          filter: {
-            applied: false,
-            filterField: 'field_statute_iv.field_agency_component_inf.field_num_relied_by_agency_comp',
-            op: 'greater_than',
-            compareValue: '',
-          },
-        },
-      ];
-      sinon.stub(AnnualReportDataFormStore.prototype, 'getState').returns({ selectedDataTypes });
-    });
-
     it('builds includes and fields based on sections defined in the annualReportDataTypesStore', () => {
       const { selectedDataTypes } = annualReportDataFormStore.getState();
       requestBuilder.includeSections(selectedDataTypes, false);
@@ -390,49 +390,47 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       expect(requestBuilder.request._params, '_params').to.have.property('fields');
       expect(
         Object.keys(requestBuilder.request._params.fields).sort(),
-        'requestBuilder.request._params.fields keys'
+        'requestBuilder.request._params.fields keys',
       ).to.eql([
         'annual_foia_report_data',
         'field_agency',
         'field_agency_components',
         'field_foia_requests_va',
         'field_statute_iv',
-        'field_statute_iv.field_agency_component_inf'
+        'field_statute_iv.field_agency_component_inf',
       ].sort());
 
       expect(
         requestBuilder.request._params.fields.annual_foia_report_data.sort(),
-        'requestBuilder.request._params.fields.annual_foia_report_data'
+        'requestBuilder.request._params.fields.annual_foia_report_data',
       ).to.eql([
-          'title',
-          'field_foia_annual_report_yr',
-          'field_agency',
-          'field_agency_components',
-          'field_foia_requests_va',
-          'field_statute_iv',
-          'field_footnotes_va',
-          'field_footnotes_iv'
-        ].sort()
-      );
+        'title',
+        'field_foia_annual_report_yr',
+        'field_agency',
+        'field_agency_components',
+        'field_foia_requests_va',
+        'field_statute_iv',
+        'field_footnotes_va',
+        'field_footnotes_iv',
+      ].sort());
       expect(
         requestBuilder.request._params.fields.field_agency.sort(),
         'requestBuilder.request._params.fields.field_agency',
       ).to.eql(
-        ['name', 'abbreviation'].sort()
+        ['name', 'abbreviation'].sort(),
       );
       expect(
         requestBuilder.request._params.fields.field_agency_components.sort(),
-        'requestBuilder.request._params.fields.field_agency_components'
+        'requestBuilder.request._params.fields.field_agency_components',
       ).to.eql(['title']);
       expect(
         requestBuilder.request._params.fields.field_foia_requests_va.sort(),
-        'requestBuilder.request._params.fields.field_foia_requests_va'
+        'requestBuilder.request._params.fields.field_foia_requests_va',
       ).to.eql(['field_agency_component']);
       expect(
         requestBuilder.request._params.fields.field_statute_iv.sort(),
-        'requestBuilder.request._params.fields.field_statute_iv'
+        'requestBuilder.request._params.fields.field_statute_iv',
       ).to.eql(['field_agency_component_inf']);
     });
   });
-})
-;
+});
