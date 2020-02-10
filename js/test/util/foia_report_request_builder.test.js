@@ -373,7 +373,7 @@ describe('FoiaAnnualReportRequestBuilder', () => {
 
     it('builds includes and fields based on sections defined in the annualReportDataTypesStore', () => {
       const { selectedDataTypes } = annualReportDataFormStore.getState();
-      requestBuilder.includeSections(selectedDataTypes);
+      requestBuilder.includeSections(selectedDataTypes, false);
 
       expect(requestBuilder.request._params).to.have.property('include');
       expect(requestBuilder.request._params.include.sort())
@@ -389,13 +389,33 @@ describe('FoiaAnnualReportRequestBuilder', () => {
         ].sort());
 
       expect(requestBuilder.request._params).to.have.property('fields');
-      expect(requestBuilder.request._params.fields).to.deep.equal({
-        annual_foia_report_data: ['title', 'field_foia_annual_report_yr', 'field_agency', 'field_agency_components', 'field_foia_requests_va', 'field_statute_iv'],
-        field_agency: ['name', 'abbreviation'],
-        field_agency_components: ['title'],
-        field_foia_requests_va: ['field_agency_component'],
-        field_statute_iv: ['field_agency_component_inf'],
-      });
+      expect(Object.keys(requestBuilder.request._params.fields).sort()).to.equal([
+        'annual_foia_report_data',
+        'field_agency',
+        'field_agency_components',
+        'field_foia_requests_va',
+        'field_statute_iv',
+      ].sort());
+
+      expect(requestBuilder.request._params.fields.annual_foia_report_data.sort()).to.equal([
+          'title',
+          'field_foia_annual_report_yr',
+          'field_agency',
+          'field_agency_components',
+          'field_foia_requests_va',
+          'field_statute_iv',
+          'field_footnotes_va',
+          'field_footnotes_iv'
+        ].sort()
+      );
+
+
+      expect(requestBuilder.request._params.fields.field_agency.sort()).to.equal(
+        ['name', 'abbreviation'].sort()
+      );
+      expect(requestBuilder.request._params.fields.field_agency_components.sort()).to.equal(['title']);
+      expect(requestBuilder.request._params.fields.field_foia_requests_va.sort()).to.equal(['field_agency_component']);
+      expect(requestBuilder.request._params.fields.field_statute_iv.sort()).to.equal(['field_agency_component_inf']);
     });
   });
 })
