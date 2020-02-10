@@ -212,11 +212,7 @@ export const reportActions = {
     // modifier function if it needs to be.
     let builder = reportRequestBuilder;
     builder.request.limit(5);
-    builder = builder.includeSections(sections);
-
-    if (agencyOverall) {
-      builder.includeAgencyOverall(sections);
-    }
+    builder = builder.includeSections(sections, agencyOverall);
 
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);
