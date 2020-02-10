@@ -1,9 +1,9 @@
 import { Store } from 'flux/utils';
-import { List, Map } from 'immutable';
 
 import dispatcher from '../util/dispatcher';
 import { types } from '../actions/report';
 import agencyComponentStore from './agency_component';
+import annualReportDataTypesStore from './annual_report_data_types';
 
 class AnnualReportDataFormStore extends Store {
   constructor(_dispatcher) {
@@ -11,7 +11,6 @@ class AnnualReportDataFormStore extends Store {
     this.state = {
       selectedAgencies: [{ index: 0 }],
       selectedDataTypes: [{ index: 0, id: '' }],
-      selectedDataTypeFilters: [{ index: 0 }],
       selectedFiscalYears: [],
     };
   }
@@ -90,12 +89,33 @@ class AnnualReportDataFormStore extends Store {
         const { selectedDataType, previousDataType } = payload;
         const previousIsValid = typeof previousDataType === 'object'
           && Object.prototype.hasOwnProperty.call(previousDataType, 'index');
-        const selectedIsValid = typeof previousDataType === 'object'
-          && Object.prototype.hasOwnProperty.call(previousDataType, 'index');
+        const selectedIsValid = typeof selectedDataType === 'object'
+          && Object.prototype.hasOwnProperty.call(selectedDataType, 'index');
 
         if (!selectedIsValid || !previousIsValid) {
           break;
         }
+
+        if (selectedDataType.id === previousDataType.id) {
+          break;
+        }
+        selectedDataType.fields = annualReportDataTypesStore
+          .getFieldsForDataType(selectedDataType.id);
+
+        selectedDataType.filterOptions = selectedDataType
+          .fields
+          .filter(opt => opt.filter)
+          .map(opt => ({
+            value: opt.id,
+            label: opt.label,
+          }));
+
+        selectedDataType.filter = {
+          applied: false,
+          filterField: selectedDataType.filterOptions[0].value,
+          op: 'greater_than',
+          compareValue: '',
+        };
 
         const selectedDataTypes = [...this.state.selectedDataTypes];
         selectedDataTypes.splice(previousDataType.index, 1, selectedDataType);
@@ -131,6 +151,73 @@ class AnnualReportDataFormStore extends Store {
         break;
       }
 
+      case types.ANNUAL_REPORT_DATA_TYPE_FILTER_UPDATE: {
+        const { currentSelection, filter } = payload;
+        const selectedDataTypes = [...this.state.selectedDataTypes];
+        if (!(typeof currentSelection === 'object' && Object.prototype.hasOwnProperty.call(currentSelection, 'index'))) {
+          break;
+        }
+        // Get a copy of the filter so we aren't updating the real one until
+        // the user submits the modal.
+        const tempFilter = currentSelection.tempFilter ?
+          Object.assign({}, currentSelection.tempFilter) :
+          Object.assign({}, currentSelection.filter);
+        Object.assign(tempFilter, {
+          applied: true,
+        });
+        tempFilter[filter.name] = filter.value;
+
+        selectedDataTypes[currentSelection.index].tempFilter = tempFilter;
+        Object.assign(this.state, {
+          selectedDataTypes,
+        });
+
+        this.__emitChange();
+        break;
+      }
+
+      case types.ANNUAL_REPORT_DATA_TYPE_FILTER_SUBMIT: {
+        const { index } = payload;
+        const selectedDataTypes = [...this.state.selectedDataTypes];
+        const dataType = Object.assign({}, selectedDataTypes[index]);
+
+        if (!Object.prototype.hasOwnProperty.call(dataType, 'tempFilter')) {
+          break;
+        }
+
+        dataType.filter = dataType.tempFilter;
+        delete dataType.tempFilter;
+
+        selectedDataTypes.splice(index, 1, dataType);
+
+        Object.assign(this.state, {
+          selectedDataTypes,
+        });
+
+        this.__emitChange();
+        break;
+      }
+
+      case types.ANNUAL_REPORT_DATA_TYPE_FILTER_RESET: {
+        const { index } = payload;
+        const selectedDataTypes = [...this.state.selectedDataTypes];
+        const dataType = Object.assign({}, selectedDataTypes[index]);
+
+        if (!Object.prototype.hasOwnProperty.call(dataType, 'tempFilter')) {
+          break;
+        }
+        delete dataType.tempFilter;
+
+        selectedDataTypes.splice(index, 1, dataType);
+
+        Object.assign(this.state, {
+          selectedDataTypes,
+        });
+
+        this.__emitChange();
+        break;
+      }
+
       case types.SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE: {
         // Assigns agencyComponent selections to a temporary property on the
         // agency that is being updated.  This allows the changes to be committed
@@ -151,6 +238,39 @@ class AnnualReportDataFormStore extends Store {
           components.findIndex(component => component.id === agencyComponent.id),
           Object.assign({}, agencyComponent, { selected: !agencyComponent.selected }),
         );
+
+        selectedAgencies[agency.index].tempSelectedComponents = components;
+
+        Object.assign(this.state, {
+          selectedAgencies,
+        });
+        this.__emitChange();
+        break;
+      }
+
+      case types.SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE_ALL: {
+        // Assigns agencyComponent selections to a temporary property on the
+        // agency that is being updated.  This allows the changes to be committed
+        // later when the user clicks "Submit" or to be discarded if the user clicks
+        // "Cancel".
+        const { selectValue, agency } = payload;
+        const selectedAgencies = [...this.state.selectedAgencies];
+
+        // Get a copy of the current components or tempSelectedComponents list
+        // so that we don't directly update those lists.
+        let components = selectedAgencies[agency.index].tempSelectedComponents
+          ? selectedAgencies[agency.index].tempSelectedComponents.toList()
+          : selectedAgencies[agency.index].components.toList();
+
+        // Update the temporary components list with a cloned agency component
+        // object where all select values are toggled.
+        components.map((item) => {
+          components = components.set(
+            components.findIndex(component => component.id === item.id),
+            Object.assign({}, item, { selected: selectValue }),
+          );
+          return components;
+        });
 
         selectedAgencies[agency.index].tempSelectedComponents = components;
 

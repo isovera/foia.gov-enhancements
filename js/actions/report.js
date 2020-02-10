@@ -31,8 +31,12 @@ export const types = {
   ANNUAL_REPORT_DATA_TYPE_FILTER_ADD_GROUP: 'ANNUAL_REPORT_DATA_TYPE_FILTER_ADD_GROUP',
   SELECTED_FISCAL_YEARS_UPDATE: 'SELECTED_FISCAL_YEARS_UPDATE',
   SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE: 'SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE',
+  SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE_ALL: 'SELECTED_AGENCY_COMPONENT_TEMPORARY_UPDATE_ALL',
   SELECTED_AGENCY_COMPONENTS_DISCARD_TEMPORARY: 'SELECTED_AGENCY_COMPONENTS_DISCARD_TEMPORARY',
   SELECTED_AGENCY_COMPONENTS_MERGE_TEMPORARY: 'SELECTED_AGENCY_COMPONENTS_MERGE_TEMPORARY',
+  ANNUAL_REPORT_DATA_TYPE_FILTER_UPDATE: 'ANNUAL_REPORT_DATA_TYPE_FILTER_UPDATE',
+  ANNUAL_REPORT_DATA_TYPE_FILTER_SUBMIT: 'ANNUAL_REPORT_DATA_TYPE_FILTER_SUBMIT',
+  ANNUAL_REPORT_DATA_TYPE_FILTER_RESET: 'ANNUAL_REPORT_DATA_TYPE_FILTER_RESET',
 };
 
 // Action creators, to dispatch actions
@@ -186,6 +190,9 @@ export const reportActions = {
    * @param {List<string> | Array<string>} sections
    *   A list of the section names to retrieve, which will be transformed into
    *   a map of includes and fields on the jsonapi request.
+   * @param {Boolean} agencyOverall
+   *   A boolean to determine if the request should include the agency overall
+   *   fields if the section.
    * @param {Function | null} modifier
    *   An optional function that will get the JsonapiParams request object.
    *   This function allows modifications to the request such as adding filters
@@ -196,7 +203,7 @@ export const reportActions = {
    * @see js/stores/annual_report_data_types.js
    * @see www.foia.gov/api/annual-report-form/report_data_map.json
    */
-  fetchAnnualReportData(sections = List(), modifier = null) {
+  fetchAnnualReportData(sections = List(), agencyOverall = true, modifier = null) {
     dispatcher.dispatch({
       type: types.ANNUAL_REPORT_DATA_FETCH,
     });
@@ -206,6 +213,10 @@ export const reportActions = {
     let builder = reportRequestBuilder;
     builder.request.limit(5);
     builder = builder.includeSections(sections);
+
+    if (agencyOverall) {
+      builder.includeAgencyOverall(sections);
+    }
 
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);

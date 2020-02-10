@@ -130,6 +130,58 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     return this;
   }
 
+  /**
+   * Include agency overall fields in the request.
+   *
+   * @param {array | List } sections
+   *   An array of section group ids that can be retrieved from
+   *   the annualReportDataTypesStore.
+   * @returns {FoiaAnnualReportRequestBuilder}
+   */
+  includeAgencyOverall(sections) {
+    const sectionNames = Array.isArray(sections) || List.isList(sections)
+      ? List(sections)
+      : List([]);
+
+    let { dataTypes } = annualReportDataTypesStore.getState();
+    dataTypes = dataTypes.filter((group, groupName) => (
+      sectionNames.includes(groupName)
+    ));
+
+    const includes = dataTypes.reduce((entities, section) => {
+      if (!Object.prototype.hasOwnProperty.call(section, 'fields')) {
+        return entities;
+      }
+
+      return entities.push(
+        section.fields.map(item =>
+          item.overall_field,
+        ),
+      );
+    }, List([]));
+
+    const iterator = includes.values();
+    let include = iterator.next();
+    while (!include.done) {
+      if (!this.request._params.include.includes(include.value)) {
+        this.request.include(include.value);
+      }
+      include.value.forEach((field) => {
+        if (field) {
+          const path = field.split('.');
+          if (path.length === 1) {
+            this.request.fields('annual_foia_report_data', path[0]);
+          } else {
+            this.request.fields(path[0], path[1]);
+          }
+        }
+      });
+      include = iterator.next();
+    }
+
+    return this;
+  }
+
   includeFields(fields = {}) {
     if (Object.keys(fields).length > 0) {
       Object.keys(fields).forEach((field) => {
