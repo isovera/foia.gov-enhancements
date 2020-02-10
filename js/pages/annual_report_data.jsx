@@ -10,6 +10,7 @@ import annualReportDataFormStore from '../stores/annual_report_data_form';
 import agencyComponentStore from '../stores/agency_component';
 import annualReportFiscalYearStore from '../stores/annual_report_fiscal_year';
 import annualReportDataTypesStore from '../stores/annual_report_data_types';
+import annualReportStore from '../stores/annual_report';
 
 import { reportActions } from '../actions/report';
 
@@ -20,6 +21,7 @@ class AnnualReportDataPage extends Component {
       annualReportFiscalYearStore,
       agencyComponentStore,
       annualReportDataTypesStore,
+      annualReportStore,
     ];
   }
 
@@ -46,6 +48,10 @@ class AnnualReportDataPage extends Component {
       dataTypeOptions,
     } = annualReportDataTypesStore.getState();
 
+    const {
+      reports,
+    } = annualReportStore.getState();
+
     return {
       agencies,
       agencyComponents,
@@ -57,6 +63,7 @@ class AnnualReportDataPage extends Component {
       dataTypes,
       dataTypeOptions,
       selectedDataTypes,
+      reports,
     };
   }
 
