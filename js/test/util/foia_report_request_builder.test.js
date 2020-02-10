@@ -14,7 +14,7 @@ chai.use(sinonChai);
 describe('FoiaAnnualReportRequestBuilder', () => {
   let requestBuilder;
   let sandbox;
-  let buildDataTypeStubs = () => {
+  const buildDataTypeStubs = () => {
     const dataTypes = new OrderedMap({
       group_v_a_foia_requests_received: {
         id: 'group_v_a_foia_requests_received',
@@ -426,11 +426,56 @@ describe('FoiaAnnualReportRequestBuilder', () => {
       expect(
         requestBuilder.request._params.fields.field_foia_requests_va.sort(),
         'requestBuilder.request._params.fields.field_foia_requests_va',
-      ).to.eql(['field_agency_component']);
+      ).to.eql([
+        'field_agency_component',
+        'field_req_pend_start_yr',
+        'field_req_received_yr',
+        'field_req_processed_yr',
+        'field_req_pend_end_yr',
+      ].sort());
       expect(
         requestBuilder.request._params.fields.field_statute_iv.sort(),
         'requestBuilder.request._params.fields.field_statute_iv',
-      ).to.eql(['field_agency_component_inf']);
+      ).to.eql([
+        'field_agency_component_inf',
+        'field_statute',
+        'field_type_of_info_withheld',
+      ].sort());
+    });
+  });
+
+  describe('::getSectionFields', () => {
+    it('builds an object of entities and fields based on given sections', () => {
+      const { dataTypes } = annualReportDataTypesStore.getState();
+      const fields = FoiaAnnualReportRequestBuilder.getSectionFields(
+        dataTypes.filter((value, key) => key === 'group_v_a_foia_requests_received'),
+        false,
+      );
+
+      expect(Object.keys(fields).sort(), 'fields keys').to.eql(['annual_foia_report_data', 'field_foia_requests_va']);
+      expect(fields.annual_foia_report_data.sort(), 'group_v_a_foia_requests_received annual_foia_report_data fields').to.eql(
+        ['field_foia_requests_va', 'field_footnotes_va'].sort(),
+      );
+      expect(fields.field_foia_requests_va.sort(), 'group_v_a_foia_requests_received field_foia_requests_va fields')
+        .to.eql([
+          'field_agency_component',
+          'field_req_pend_start_yr',
+          'field_req_received_yr',
+          'field_req_processed_yr',
+          'field_req_pend_end_yr',
+        ].sort());
+    });
+  });
+
+  describe('::getIncludeFields', () => {
+    it('builds an array of fields to be included based on given sections', () => {
+      const { dataTypes } = annualReportDataTypesStore.getState();
+      const includes = FoiaAnnualReportRequestBuilder.getSectionIncludes(
+        dataTypes.filter((value, key) => key === 'group_v_a_foia_requests_received'),
+        false,
+      );
+
+      expect(includes.sort(), 'includes').to.eql(['field_foia_requests_va', 'field_foia_requests_va.field_agency_component'].sort());
     });
   });
 });
