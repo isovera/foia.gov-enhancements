@@ -196,6 +196,7 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
   }
 }
 
+
 // Export a singleton
 const reportRequestBuilder = new FoiaAnnualReportRequestBuilder();
 export default reportRequestBuilder;
