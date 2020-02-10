@@ -160,9 +160,6 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     const iterator = includes.values();
     let include = iterator.next();
     while (!include.done) {
-      if (!this.request._params.include.includes(include.value)) {
-        this.request.include(include.value);
-      }
       include.value.forEach((field) => {
         if (field) {
           const path = field.split('.');
