@@ -117,9 +117,7 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     const iterator = includes.values();
     let include = iterator.next();
     while (!include.done) {
-      if (!this.request._params.include.includes(include.value)) {
-        this.request.include(include.value);
-      }
+      this.request.include(include.value);
       const path = include.value.split('.');
       if (path.length === 1) {
         this.request.fields('annual_foia_report_data', path[0]);
@@ -165,6 +163,9 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     const iterator = includes.values();
     let include = iterator.next();
     while (!include.done) {
+      if (!this.request._params.include.includes(include.value)) {
+        this.request.include(include.value);
+      }
       include.value.forEach((field) => {
         if (field) {
           const path = field.split('.');
