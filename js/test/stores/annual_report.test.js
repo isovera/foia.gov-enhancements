@@ -82,5 +82,19 @@ describe('FoiaAnnualReportRequestBuilder', () => {
           fiscalYear: 2018,
         });
     });
+
+    it('defaults to the value "Agency Overall" if the field_agency_component field does not exist in the given row', () => {
+      const component = {
+        overall_field: 'OVERALL FIELD VALUE',
+      };
+      expect(annualReportStore.appendReportData(component, 'test_report_1'), 'overall component & report data')
+        .to
+        .include({
+          overall_field: 'OVERALL FIELD VALUE',
+          agency: 'TEST_AGENCY_ABBREVIATION',
+          component: 'Agency Overall',
+          fiscalYear: 2018,
+        });
+    });
   });
 });

@@ -73,8 +73,9 @@ class AnnualReportStore extends Store {
     if (dataType === null || typeof dataType !== 'object') {
       return false;
     }
+
     if (!Object.prototype.hasOwnProperty.call(dataType, 'field_agency_component')) {
-      return false;
+      return 'Agency Overall';
     }
 
     return dataType.field_agency_component.abbreviation
