@@ -135,6 +135,11 @@ Props:
  * `eventType`: The event name to dispatch that data stores will listen for.
    For example, a type from the `types` object in `js/actions/index.js`.
  * `text`: The link text to display.
+ * `icon`: Markup that will be rendered in the link, prior to text.
+ * `iconColor`: Accepts the values, `dark` or `light` to indicate the
+   wrapper class to use of `use-dark-icons` or `use-light-icons`.
+ * `classes`: Accepts an array of strings that will be added to the wrapper
+   element as additional classes.
 
 Example Use:
 ```
