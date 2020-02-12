@@ -121,6 +121,7 @@ class ReportAgencyComponentFilter extends Component {
           agencyComponents={agencyComponents}
           agencyFinderDataProgress={agencyFinderDataProgress}
           agencyFinderDataComplete={agencyFinderDataComplete}
+          isDisabled={this.props.isDisabled}
           selectedAgency={selectedAgency}
           agencyComponentDisplayError={agencyComponentDisplayError}
         />
@@ -144,6 +145,7 @@ ReportAgencyComponentFilter.propTypes = {
   agencyComponents: PropTypes.instanceOf(List),
   agencyFinderDataComplete: PropTypes.bool.isRequired,
   agencyFinderDataProgress: PropTypes.number,
+  isDisabled: PropTypes.bool,
   selectedAgency: PropTypes.object,
   agencyComponentDisplayError: PropTypes.bool.isRequired,
 };
@@ -152,6 +154,7 @@ ReportAgencyComponentFilter.defaultProps = {
   agencies: new Map(),
   agencyComponents: new List(),
   agencyFinderDataProgress: 0,
+  isDisabled: false,
   selectedAgency: { index: 0 },
 };
 

@@ -89,6 +89,7 @@ Props:
  * `agencyFinderDataComplete`: Whether or not the agencyComponent store is populated.
  * `agencyFinderDataProgress`: The amount of progress made in populating the agencyComponent store.
  * `selectedAgency` : An array of agencies or components that have been selected in the report form.
+ * `isDisabled`: A boolean indicating that the field is disabled.
 
  Example Use:
  ```
@@ -113,6 +114,7 @@ Props:
  * `agencyFinderDataComplete`: Whether or not the agencyComponent store is populated.
  * `agencyFinderDataProgress`: The amount of progress made in populating the agencyComponent store.
  * `selectedAgency` : An array of agencies or components that have been selected in the report form.
+ * `isDisabled`: A boolean indicating that the field is disabled.
 
 Example Use:
 ```
