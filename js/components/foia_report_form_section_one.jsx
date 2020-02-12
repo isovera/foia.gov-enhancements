@@ -35,11 +35,23 @@ class FoiaReportFormSectionOne extends Component {
                 agencyFinderDataProgress={agencyFinderDataProgress}
                 selectedAgency={selected}
                 agencyComponentDisplayError={agencyComponentDisplayError}
+                isDisabled={this.props.allAgenciesSelected}
               />))}
-            <AddLink
-              eventType={types.SELECTED_AGENCIES_APPEND_BLANK}
-              text="Add Another Agency or Component"
-            />
+            <div className="form-group usa-grid-full">
+              <div className="usa-width-one-half">
+                <AddLink
+                  eventType={types.SELECTED_AGENCIES_APPEND_BLANK}
+                  text="Add Another Agency or Component"
+                />
+              </div>
+              <div className="usa-width-one-half">
+                {<AddLink
+                  eventType={types.SELECTED_AGENCIES_TOGGLE_SELECT_ALL}
+                  text={!this.props.allAgenciesSelected ? 'Select All Agencies' : 'Unselect All Agencies'}
+                  icon={false}
+                />}
+              </div>
+            </div>
           </fieldset>
         </div>
       </div>
@@ -54,12 +66,14 @@ FoiaReportFormSectionOne.propTypes = {
   agencyFinderDataComplete: PropTypes.bool.isRequired,
   agencyFinderDataProgress: PropTypes.number,
   agencyComponentDisplayError: PropTypes.bool.isRequired,
+  allAgenciesSelected: PropTypes.bool,
 };
 
 FoiaReportFormSectionOne.defaultProps = {
   agencies: new Map(),
   agencyComponents: new List(),
   agencyFinderDataProgress: 0,
+  allAgenciesSelected: false,
   selectedAgencies: [{ index: 0 }],
 };
 
