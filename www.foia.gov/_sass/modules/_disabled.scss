@@ -4,6 +4,10 @@
         pointer-events: none;
     }
 
+    button {
+        @extend .usa-button-disabled;
+    }
+
     label,
     input,
     textarea,
