@@ -10,6 +10,7 @@ class AnnualReportDataFormStore extends Store {
     super(_dispatcher);
     this.state = {
       selectedAgencies: [{ index: 0 }],
+      allAgenciesSelected: false,
       selectedDataTypes: [{ index: 0, id: '' }],
       selectedFiscalYears: [],
       fiscalYearsIsValid: false,
@@ -73,6 +74,16 @@ class AnnualReportDataFormStore extends Store {
 
         Object.assign(this.state, {
           selectedAgencies,
+        });
+        this.__emitChange();
+        break;
+      }
+
+      case types.SELECTED_AGENCIES_TOGGLE_SELECT_ALL: {
+        const { allAgenciesSelected } = Object.assign({}, this.getState());
+
+        Object.assign(this.state, {
+          allAgenciesSelected: !allAgenciesSelected,
         });
         this.__emitChange();
         break;
