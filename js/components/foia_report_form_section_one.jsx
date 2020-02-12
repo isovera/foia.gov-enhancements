@@ -16,6 +16,7 @@ class FoiaReportFormSectionOne extends Component {
       agencyFinderDataProgress,
       selectedAgencies,
       agencyComponentDisplayError,
+      allAgenciesSelected,
     } = this.props;
 
     return (
@@ -38,7 +39,7 @@ class FoiaReportFormSectionOne extends Component {
                 isDisabled={this.props.allAgenciesSelected}
               />))}
             <div className="form-group usa-grid-full">
-              <div className="usa-width-one-half">
+              <div className={'usa-width-one-half'.concat(allAgenciesSelected ? ' usa-disabled' : '')}>
                 <AddLink
                   eventType={types.SELECTED_AGENCIES_APPEND_BLANK}
                   text="Add Another Agency or Component"

@@ -109,19 +109,20 @@ class ReportAgencyComponentFilter extends Component {
       agencyFinderDataComplete,
       selectedAgency,
       agencyComponentDisplayError,
+      isDisabled,
     } = this.props;
 
     const agencyIsSelected = (this.props.selectedAgency.id !== 0 && this.props.selectedAgency.type === 'agency') || false;
     const isCentralizedAgency = this.props.selectedAgency.component_count <= 1 || false;
 
     return (
-      <div className="usa-search usa-search-big">
+      <div className={'usa-search usa-search-big'.concat(isDisabled ? ' usa-disabled' : '')}>
         <ReportAgencyComponentTypeahead
           agencies={agencies}
           agencyComponents={agencyComponents}
           agencyFinderDataProgress={agencyFinderDataProgress}
           agencyFinderDataComplete={agencyFinderDataComplete}
-          isDisabled={this.props.isDisabled}
+          isDisabled={isDisabled}
           selectedAgency={selectedAgency}
           agencyComponentDisplayError={agencyComponentDisplayError}
         />
