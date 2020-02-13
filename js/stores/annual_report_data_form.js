@@ -4,6 +4,7 @@ import dispatcher from '../util/dispatcher';
 import { types } from '../actions/report';
 import agencyComponentStore from './agency_component';
 import annualReportDataTypesStore from './annual_report_data_types';
+import { List } from 'immutable';
 
 class AnnualReportDataFormStore extends Store {
   constructor(_dispatcher) {
@@ -24,6 +25,28 @@ class AnnualReportDataFormStore extends Store {
 
   getState() {
     return this.state;
+  }
+
+  getSelectedAgencies() {
+    if (!this.state.allAgenciesSelected) {
+      return [...this.state.selectedAgencies];
+    }
+
+    // If all agencies are selected, get an array of all agencies
+    // where the only component is an overall component.
+    let { agencies } = agencyComponentStore.getState();
+    agencies = agencies.map(agency => (
+      Object.assign({}, agency, {
+        components: List([{
+          abbreviation: 'Agency Overall',
+          id: `overall:${agency.id}`,
+          isOverall: true,
+          selected: true,
+        }]),
+      })
+    ));
+
+    return agencies.toArray();
   }
 
   __onDispatch(payload) {

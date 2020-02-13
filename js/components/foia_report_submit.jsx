@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reportActions } from '../actions/report';
-import agencyComponentStore from '../stores/agency_component';
-import { List } from 'immutable';
 
 class FoiaReportDataSubmit extends Component {
   constructor(props) {
@@ -37,28 +35,6 @@ class FoiaReportDataSubmit extends Component {
     if (this.formIsValid()) {
       this.props.onClick(event);
     }
-  }
-
-  getSelectedAgencies() {
-    if (!this.props.allAgenciesSelected) {
-      return this.props.selectedAgencies;
-    }
-
-    // If all agencies are selected, get an array of all agencies
-    // where the only component is an overall component.
-    let { agencies } = agencyComponentStore.getState();
-    agencies = agencies.map((agency) => (
-      Object.assign({}, agency, {
-        components: List([{
-          abbreviation: 'Agency Overall',
-          id: `overall:${agency.id}`,
-          isOverall: true,
-          selected: true,
-        }]),
-      })
-    ));
-
-    return agencies.toArray();
   }
 
   render() {
