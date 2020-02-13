@@ -150,8 +150,6 @@ class AnnualReportDataPage extends Component {
             fiscalYearsDisplayError={fiscalYearsDisplayError}
           />
           <FoiaReportDataSubmit
-            allAgenciesSelected={allAgenciesSelected}
-            selectedAgencies={selectedAgencies}
             selectedDataTypes={selectedDataTypes}
             agencyComponentIsValid={agencyComponentIsValid}
             dataTypesIsValid={dataTypesIsValid}
