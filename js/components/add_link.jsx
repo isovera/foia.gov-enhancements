@@ -26,8 +26,8 @@ class AddLink extends Component {
   }
 
   render() {
-    const classes = ['form-group', 'field', this.iconColor()]
-      .concat(this.props.classes)
+    let classes = this.props.classes || ['form-group', 'field'];
+    classes = classes.concat(this.iconColor())
       .filter(className => className !== false);
 
     return (

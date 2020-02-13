@@ -140,8 +140,8 @@ Props:
  * `icon`: Markup that will be rendered in the link, prior to text.
  * `iconColor`: Accepts the values, `dark` or `light` to indicate the
    wrapper class to use of `use-dark-icons` or `use-light-icons`.
- * `classes`: Accepts an array of strings that will be added to the wrapper
-   element as additional classes.
+ * `classes`: Accepts an array of strings that will overwrite the wrapper
+   element classes.
 
 Example Use:
 ```
