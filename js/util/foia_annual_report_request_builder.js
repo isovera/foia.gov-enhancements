@@ -63,6 +63,40 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     return this;
   }
 
+  addDataTypeFiltersGroup(filters = []) {
+    if (filters.length <= 0) {
+      return this;
+    }
+
+    // Transform the filters, adding an index which will be used when
+    // naming the filter for the .request.filter() method and
+    // handle the special operator `is_na`.
+    const dataTypeFilters = filters
+      .map((filter, index) => (
+        Object.assign({ index }, filter, {
+          op: filter.op === 'is_na' ? 'equal_to' : filter.op,
+          compareValue: filter.op === 'is_na' ? 'N/A' : filter.compareValue,
+        })
+      ));
+    const filterNames = dataTypeFilters.map(filter => `data-type-filter-${filter.index}`);
+    while (dataTypeFilters.length > 0) {
+      const filter = dataTypeFilters.shift();
+      this.request = this.request.filter(
+        `data-type-filter-${filter.index}`,
+        filter.filterField,
+        filter.compareValue,
+      );
+      this.request = this.request.operator(
+        `data-type-filter-${filter.index}`,
+        FoiaAnnualReportRequestBuilder.getOperator(filter.op),
+      );
+    }
+
+    this.request.or(...filterNames);
+
+    return this;
+  }
+
   /**
    * Iterates a list of values, adding each as a filter condition with the specified path.
    *
@@ -189,6 +223,16 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
 
       return updatedEntities;
     }, {});
+  }
+
+  static getOperator(name) {
+    const operators = {
+      greater_than: '>',
+      less_than: '<',
+      equal_to: '=',
+    };
+
+    return operators[name] || '=';
   }
 }
 
