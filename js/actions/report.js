@@ -225,14 +225,9 @@ export const reportActions = {
   },
 
   /**
-   * Get reports from the api, only including fields from the named sections.
+   * Makes a base report api request with the correct events dispatched
+   * while allowing the request to be modified before sending.
    *
-   * @param {List<string> | Array<string>} sections
-   *   A list of the section names to retrieve, which will be transformed into
-   *   a map of includes and fields on the jsonapi request.
-   * @param {Boolean} agencyOverall
-   *   A boolean to determine if the request should include the agency overall
-   *   fields if the section.
    * @param {Function | null} modifier
    *   An optional function that will get the JsonapiParams request object.
    *   This function allows modifications to the request such as adding filters
@@ -243,7 +238,7 @@ export const reportActions = {
    * @see js/stores/annual_report_data_types.js
    * @see www.foia.gov/api/annual-report-form/report_data_map.json
    */
-  fetchAnnualReportData(sections = List(), agencyOverall = true, modifier = null) {
+  fetchAnnualReportData(modifier = null) {
     dispatcher.dispatch({
       type: types.ANNUAL_REPORT_DATA_FETCH,
     });
@@ -252,7 +247,6 @@ export const reportActions = {
     // modifier function if it needs to be.
     let builder = new FoiaAnnualReportRequestBuilder();
     builder.request.limit(5);
-    builder = builder.includeSections(sections, agencyOverall);
 
     if (modifier && typeof modifier === 'function') {
       builder = modifier(builder);

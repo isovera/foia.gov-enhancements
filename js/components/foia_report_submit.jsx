@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import { reportActions, types } from '../actions/report';
 import dispatcher from '../util/dispatcher';
+import annualReportDataFormStore from '../stores/annual_report_data_form';
 
 class FoiaReportDataSubmit extends Component {
   constructor(props) {
@@ -29,7 +31,26 @@ class FoiaReportDataSubmit extends Component {
         type: types.REPORT_SUBMISSION_TYPE,
         submissionAction: action,
       });
-      reportActions.fetchAnnualReportData(this.props.selectedDataTypes);
+      reportActions.fetchAnnualReportData((builder) => {
+        const selectedAgencies = annualReportDataFormStore.getSelectedAgencies();
+        const agencies = selectedAgencies.filter(selection => selection.type === 'agency');
+        const components = selectedAgencies.filter(selection => selection.type === 'agency_component');
+        const includeOverall = agencies.filter((agency) => {
+          const overall = agency
+            .components
+            .filter(component => component.selected && component.isOverall);
+
+          return List.isList(overall) ? overall.size > 0 : overall.length > 0;
+        }).length > 0;
+
+
+        return builder
+          .includeSections(this.props.selectedDataTypes, includeOverall)
+          .addOrganizationsGroup({
+            agencies: agencies.map(agency => agency.abbreviation),
+            components: components.map(component => component.abbreviation),
+          });
+      });
     }
   }
 
