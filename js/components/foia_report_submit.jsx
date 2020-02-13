@@ -45,7 +45,7 @@ class FoiaReportDataSubmit extends Component {
 
 
         return builder
-          .includeSections(this.props.selectedDataTypes, includeOverall)
+          .includeDataTypes(this.props.selectedDataTypes, includeOverall)
           .addFiscalYearsGroup(this.props.selectedFiscalYears)
           .addOrganizationsGroup({
             agencies: agencies.map(agency => agency.abbreviation),

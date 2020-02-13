@@ -91,16 +91,16 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
   /**
    * Include sections and their fields in the request.
    *
-   * @param {array | List } sections
-   *   An array of section group ids that can be retrieved from
+   * @param {array | List } types
+   *   An array of data type group ids that can be retrieved from
    *   the annualReportDataTypesStore.
    * @param {boolean} withOverallData
    *   A boolean indicating whether or not to include agency overall fields in the request.
    * @returns {FoiaAnnualReportRequestBuilder}
    */
-  includeSections(sections, withOverallData = true) {
-    const dataTypes = Array.isArray(sections) || List.isList(sections)
-      ? List(sections)
+  includeDataTypes(types, withOverallData = true) {
+    const dataTypes = Array.isArray(types) || List.isList(types)
+      ? List(types)
       : List([]);
 
     const includes = FoiaAnnualReportRequestBuilder.getSectionIncludes(dataTypes);
