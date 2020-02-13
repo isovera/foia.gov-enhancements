@@ -35,6 +35,9 @@ class FoiaReportDataSubmit extends Component {
         const selectedAgencies = annualReportDataFormStore.getSelectedAgencies();
         const agencies = selectedAgencies.filter(selection => selection.type === 'agency');
         const components = selectedAgencies.filter(selection => selection.type === 'agency_component');
+        const dataTypeFilters = this.props.selectedDataTypes
+          .filter(selection => selection.filter.applied || false)
+          .map(selection => selection.filter);
         const includeOverall = agencies.filter((agency) => {
           const overall = agency
             .components
@@ -46,6 +49,7 @@ class FoiaReportDataSubmit extends Component {
 
         return builder
           .includeDataTypes(this.props.selectedDataTypes, includeOverall)
+          .addDataTypeFiltersGroup(dataTypeFilters)
           .addFiscalYearsGroup(this.props.selectedFiscalYears)
           .addOrganizationsGroup({
             agencies: agencies.map(agency => agency.abbreviation),
