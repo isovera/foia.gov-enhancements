@@ -7,7 +7,7 @@ import dispatcher from '../util/dispatcher';
 import jsonapi from '../util/json_api';
 import localapi from '../util/local_api';
 import date from '../util/current_date';
-import reportRequestBuilder from '../util/foia_annual_report_request_builder';
+import { FoiaAnnualReportRequestBuilder } from '../util/foia_annual_report_request_builder';
 
 // Action types to identify an action
 export const types = {
@@ -259,7 +259,7 @@ export const reportActions = {
 
     // The default limit could be updated in the
     // modifier function if it needs to be.
-    let builder = reportRequestBuilder;
+    let builder = new FoiaAnnualReportRequestBuilder();
     builder.request.limit(5);
     builder = builder.includeSections(sections, agencyOverall);
 
