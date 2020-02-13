@@ -104,9 +104,17 @@ class AnnualReportDataFormStore extends Store {
 
       case types.SELECTED_AGENCIES_TOGGLE_SELECT_ALL: {
         const { allAgenciesSelected } = Object.assign({}, this.getState());
+        let agencyComponentIsValid = true;
+        if (!allAgenciesSelected) {
+          const selectedAgencies = [...this.state.selectedAgencies];
+          agencyComponentIsValid = selectedAgencies
+            .filter(selection => selection.error || false)
+            .length === 0;
+        }
 
         Object.assign(this.state, {
           allAgenciesSelected: !allAgenciesSelected,
+          agencyComponentIsValid,
         });
         this.__emitChange();
         break;
