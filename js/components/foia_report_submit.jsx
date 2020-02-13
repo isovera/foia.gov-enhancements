@@ -26,31 +26,7 @@ class FoiaReportDataSubmit extends Component {
     event.preventDefault();
     reportActions.returnFieldValidationStateOnSubmit();
     if (this.formIsValid()) {
-      reportActions.fetchAnnualReportData((builder) => {
-        const selectedAgencies = annualReportDataFormStore.getSelectedAgencies();
-        const agencies = selectedAgencies.filter(selection => selection.type === 'agency');
-        const components = selectedAgencies.filter(selection => selection.type === 'agency_component');
-        const dataTypeFilters = this.props.selectedDataTypes
-          .filter(selection => selection.filter.applied || false)
-          .map(selection => selection.filter);
-        const includeOverall = agencies.filter((agency) => {
-          const overall = agency
-            .components
-            .filter(component => component.selected && component.isOverall);
-
-          return List.isList(overall) ? overall.size > 0 : overall.length > 0;
-        }).length > 0;
-
-
-        return builder
-          .includeDataTypes(this.props.selectedDataTypes, includeOverall)
-          .addDataTypeFiltersGroup(dataTypeFilters)
-          .addFiscalYearsGroup(this.props.selectedFiscalYears)
-          .addOrganizationsGroup({
-            agencies: agencies.map(agency => agency.abbreviation),
-            components: components.map(component => component.abbreviation),
-          });
-      });
+      this.makeApiRequests();
     }
   }
 
@@ -58,8 +34,37 @@ class FoiaReportDataSubmit extends Component {
     event.preventDefault();
     reportActions.returnFieldValidationStateOnSubmit();
     if (this.formIsValid()) {
+      this.makeApiRequests();
       this.props.onClick(event);
     }
+  }
+
+  makeApiRequests() {
+    reportActions.fetchAnnualReportData((builder) => {
+      const selectedAgencies = annualReportDataFormStore.getSelectedAgencies();
+      const agencies = selectedAgencies.filter(selection => selection.type === 'agency');
+      const components = selectedAgencies.filter(selection => selection.type === 'agency_component');
+      const dataTypeFilters = this.props.selectedDataTypes
+        .filter(selection => selection.filter.applied || false)
+        .map(selection => selection.filter);
+      const includeOverall = agencies.filter((agency) => {
+        const overall = agency
+          .components
+          .filter(component => component.selected && component.isOverall);
+
+        return List.isList(overall) ? overall.size > 0 : overall.length > 0;
+      }).length > 0;
+
+
+      return builder
+        .includeDataTypes(this.props.selectedDataTypes, includeOverall)
+        .addDataTypeFiltersGroup(dataTypeFilters)
+        .addFiscalYearsGroup(this.props.selectedFiscalYears)
+        .addOrganizationsGroup({
+          agencies: agencies.map(agency => agency.abbreviation),
+          components: components.map(component => component.abbreviation),
+        });
+    });
   }
 
   render() {
