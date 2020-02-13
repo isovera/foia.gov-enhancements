@@ -38,19 +38,19 @@ class FoiaReportFormSectionOne extends Component {
                 agencyComponentDisplayError={agencyComponentDisplayError}
                 isDisabled={this.props.allAgenciesSelected}
               />))}
-            <div className="form-group usa-grid-full">
-              <div className={'usa-width-one-half'.concat(allAgenciesSelected ? ' usa-disabled' : '')}>
-                <AddLink
+            <div className="form-group_footer-links">
+              <div className="form-group_footer-links_left">
+                {!allAgenciesSelected && <AddLink
                   eventType={types.SELECTED_AGENCIES_APPEND_BLANK}
                   text="Add Another Agency or Component"
-                />
+                />}
               </div>
-              <div className="usa-width-one-half">
-                {<AddLink
+              <div className="form-group_footer-links_right">
+                <AddLink
                   eventType={types.SELECTED_AGENCIES_TOGGLE_SELECT_ALL}
                   text={!this.props.allAgenciesSelected ? 'Select All Agencies' : 'Unselect All Agencies'}
                   icon={false}
-                />}
+                />
               </div>
             </div>
           </fieldset>

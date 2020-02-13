@@ -1,10 +1,10 @@
 import { Store } from 'flux/utils';
+import { List } from 'immutable';
 
 import dispatcher from '../util/dispatcher';
 import { types } from '../actions/report';
 import agencyComponentStore from './agency_component';
 import annualReportDataTypesStore from './annual_report_data_types';
-import { List } from 'immutable';
 
 class AnnualReportDataFormStore extends Store {
   constructor(_dispatcher) {
