@@ -67,6 +67,7 @@ class FoiaReportDataSubmit extends Component {
 
 FoiaReportDataSubmit.propTypes = {
   selectedDataTypes: PropTypes.array,
+  selectedFiscalYears: PropTypes.array,
   fiscalYearsIsValid: PropTypes.bool.isRequired,
   dataTypesIsValid: PropTypes.bool.isRequired,
   agencyComponentIsValid: PropTypes.bool.isRequired,
@@ -74,6 +75,7 @@ FoiaReportDataSubmit.propTypes = {
 
 FoiaReportDataSubmit.defaultProps = {
   selectedDataTypes: [],
+  selectedFiscalYears: [],
 };
 
 export default FoiaReportDataSubmit;
