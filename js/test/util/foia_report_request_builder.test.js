@@ -370,10 +370,10 @@ describe('FoiaAnnualReportRequestBuilder', () => {
     });
   });
 
-  describe('::includeSections', () => {
+  describe('::includeDataTypes', () => {
     it('builds includes and fields based on sections defined in the annualReportDataTypesStore', () => {
       const { selectedDataTypes } = annualReportDataFormStore.getState();
-      requestBuilder.includeSections(selectedDataTypes, false);
+      requestBuilder.includeDataTypes(selectedDataTypes, false);
 
       expect(requestBuilder.request._params, '_params').to.have.property('include');
       expect(requestBuilder.request._params.include.sort(), 'requestBuilder.request._params.include')
