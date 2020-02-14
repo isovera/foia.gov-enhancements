@@ -79,6 +79,7 @@ class FoiaReportDataSubmit extends Component {
 }
 
 FoiaReportDataSubmit.propTypes = {
+  allAgenciesSelected: PropTypes.bool,
   selectedDataTypes: PropTypes.array,
   selectedFiscalYears: PropTypes.array,
   fiscalYearsIsValid: PropTypes.bool.isRequired,
@@ -88,6 +89,7 @@ FoiaReportDataSubmit.propTypes = {
 };
 
 FoiaReportDataSubmit.defaultProps = {
+  allAgenciesSelected: false,
   selectedDataTypes: [],
   selectedFiscalYears: [],
 };
