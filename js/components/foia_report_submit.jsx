@@ -41,7 +41,7 @@ class FoiaReportDataSubmit extends Component {
 
   makeApiRequests() {
     reportActions.fetchAnnualReportData((builder) => {
-      const selectedAgencies = annualReportDataFormStore.getSelectedAgencies();
+      const selectedAgencies = annualReportDataFormStore.buildSelectedAgencies();
       const agencies = selectedAgencies.filter(selection => selection.type === 'agency');
       const components = selectedAgencies.filter(selection => selection.type === 'agency_component');
       const dataTypeFilters = this.props.selectedDataTypes
