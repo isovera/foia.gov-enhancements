@@ -1,7 +1,6 @@
 import assert from 'assert';
 import axios from 'axios';
 import settings from 'settings';
-import { List } from 'immutable';
 
 import dispatcher from '../util/dispatcher';
 import jsonapi from '../util/json_api';

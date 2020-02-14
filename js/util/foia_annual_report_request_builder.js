@@ -128,17 +128,29 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
    * @param {array | List } types
    *   An array of data type group ids that can be retrieved from
    *   the annualReportDataTypesStore.
-   * @param {boolean} withOverallData
-   *   A boolean indicating whether or not to include agency overall fields in the request.
    * @returns {FoiaAnnualReportRequestBuilder}
    */
-  includeDataTypes(types, withOverallData = true) {
+  includeDataTypes(types) {
     const dataTypes = Array.isArray(types) || List.isList(types)
       ? List(types)
       : List([]);
 
     const includes = FoiaAnnualReportRequestBuilder.getSectionIncludes(dataTypes);
-    const fields = FoiaAnnualReportRequestBuilder.getSectionFields(dataTypes, withOverallData);
+    const fields = FoiaAnnualReportRequestBuilder.getSectionFields(dataTypes, false);
+
+    this.request.includeMultiple(includes);
+    this.includeFields(fields);
+
+    return this;
+  }
+
+  includeOverallFields(types) {
+    const dataTypes = Array.isArray(types) || List.isList(types)
+      ? List(types)
+      : List([]);
+
+    const includes = FoiaAnnualReportRequestBuilder.getSectionIncludes(dataTypes);
+    const fields = FoiaAnnualReportRequestBuilder.getSectionOverallFields(dataTypes);
 
     this.request.includeMultiple(includes);
     this.includeFields(fields);
@@ -173,22 +185,13 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
     }, []);
   }
 
-  static getSectionFields(dataTypes, withOverallData = true) {
+  static getSectionFields(dataTypes) {
     return dataTypes.reduce((entities, section) => {
       if (!Object.prototype.hasOwnProperty.call(section, 'fields')) {
         return entities;
       }
 
       let sectionFields = section.fields.map(item => item.id).filter(item => item !== false);
-      if (withOverallData) {
-        sectionFields = sectionFields.concat(
-          section
-            .fields
-            .map(item => item.overall_field)
-            .filter(item => item !== false),
-        );
-      }
-
       const includesForType = annualReportDataTypesStore.getIncludesForDataType(section.id);
       if (includesForType.length > 0) {
         sectionFields = sectionFields.concat(
@@ -196,33 +199,50 @@ class FoiaAnnualReportRequestBuilder extends JsonApi {
         ).filter((value, index, array) => array.indexOf(value) === index);
       }
 
+      return this.includeSectionFields(sectionFields, entities);
+    }, {});
+  }
 
-      const updatedEntities = entities;
-      let include = sectionFields.pop();
-      while (include) {
-        const path = include.split('.');
-
-        while (path.length > 1) {
-          const field = path.pop();
-          const entity = path.join('.');
-          const entityFields = updatedEntities[entity] || [];
-          updatedEntities[entity] = entityFields
-            .concat(field)
-            .filter((value, index, array) => array.indexOf(value) === index);
-        }
-
-        if (path.length === 1) {
-          const entityFields = updatedEntities.annual_foia_report_data || [];
-          updatedEntities.annual_foia_report_data = entityFields
-            .concat(path.pop())
-            .filter((value, index, array) => array.indexOf(value) === index);
-        }
-
-        include = sectionFields.pop();
+  static getSectionOverallFields(dataTypes) {
+    return dataTypes.reduce((entities, section) => {
+      if (!Object.prototype.hasOwnProperty.call(section, 'fields')) {
+        return entities;
       }
 
-      return updatedEntities;
+      const sectionFields = section.fields
+        .map(item => item.overall_field)
+        .filter(item => item !== false);
+
+      return this.includeSectionFields(sectionFields, entities);
     }, {});
+  }
+
+  static includeSectionFields(sectionFields, entities) {
+    const updatedEntities = entities;
+    let include = sectionFields.pop();
+    while (include) {
+      const path = include.split('.');
+
+      while (path.length > 1) {
+        const field = path.pop();
+        const entity = path.join('.');
+        const entityFields = updatedEntities[entity] || [];
+        updatedEntities[entity] = entityFields
+          .concat(field)
+          .filter((value, index, array) => array.indexOf(value) === index);
+      }
+
+      if (path.length === 1) {
+        const entityFields = updatedEntities.annual_foia_report_data || [];
+        updatedEntities.annual_foia_report_data = entityFields
+          .concat(path.pop())
+          .filter((value, index, array) => array.indexOf(value) === index);
+      }
+
+      include = sectionFields.pop();
+    }
+
+    return updatedEntities;
   }
 
   static getOperator(name) {

@@ -51,15 +51,23 @@ class FoiaReportDataSubmit extends Component {
         return List.isList(overall) ? overall.size > 0 : overall.length > 0;
       }).length > 0;
 
+      let updatedBuilder = builder;
+      if (includeOverall) {
+        updatedBuilder = updatedBuilder.includeOverallFields(this.props.selectedDataTypes);
+      }
 
-      return builder
-        .includeDataTypes(this.props.selectedDataTypes, includeOverall)
+      if (!this.props.allAgenciesSelected) {
+        updatedBuilder = updatedBuilder
+          .includeDataTypes(this.props.selectedDataTypes)
+          .addOrganizationsGroup({
+            agencies: agencies.map(agency => agency.abbreviation),
+            components: components.map(component => component.abbreviation),
+          });
+      }
+
+      return updatedBuilder
         .addDataTypeFiltersGroup(dataTypeFilters)
-        .addFiscalYearsGroup(this.props.selectedFiscalYears)
-        .addOrganizationsGroup({
-          agencies: agencies.map(agency => agency.abbreviation),
-          components: components.map(component => component.abbreviation),
-        });
+        .addFiscalYearsGroup(this.props.selectedFiscalYears);
     });
   }
 
