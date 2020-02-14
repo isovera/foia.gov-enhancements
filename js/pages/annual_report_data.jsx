@@ -165,6 +165,7 @@ return (
               fiscalYearsDisplayError={fiscalYearsDisplayError}
             />
             <FoiaReportDataSubmit
+              allAgenciesSelected={allAgenciesSelected}
               selectedDataTypes={selectedDataTypes}
               selectedFiscalYears={selectedFiscalYears}
               agencyComponentIsValid={agencyComponentIsValid}
