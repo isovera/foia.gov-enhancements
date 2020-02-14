@@ -28,7 +28,7 @@ class AnnualReportDataFormStore extends Store {
     return this.state;
   }
 
-  getSelectedAgencies() {
+  buildSelectedAgencies() {
     if (!this.state.allAgenciesSelected) {
       return [...this.state.selectedAgencies];
     }
@@ -37,7 +37,7 @@ class AnnualReportDataFormStore extends Store {
     // where the only component is an overall component.
     let { agencies } = agencyComponentStore.getState();
     agencies = agencies.map(agency => (
-      Object.assign({}, agency, {
+      Object.assign({}, agency.toJS(), {
         components: List([{
           abbreviation: 'Agency Overall',
           id: `overall:${agency.id}`,
