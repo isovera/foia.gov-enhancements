@@ -24,29 +24,40 @@ class AnnualReportStore extends Store {
     // @todo: This method returns agency/component abbreviations, but we may
     // want to return uuids instead.
     // @todo: remove test values.
-    const formatted = {
-      DOJ: ['OJP', 'ATF', 'FALSEY', 'Agency Overall'],
-    };
+    // const formatted = {
+    //   DOJ: ['OJP', 'ATF', 'FALSEY', 'Agency Overall'],
+    // };
     const { selectedAgencies } = annualReportDataFormStore.getState();
-    selectedAgencies.forEach((agency) => {
-      switch (agency.type) {
+    return selectedAgencies.reduce((formatted, selected) => {
+      switch (selected.type) {
         case 'agency': {
-          const { abbreviation } = agency;
-          // @todo: use a list, or be sure not to wipe out existing values...
-          // formatted[abbreviation] = ['Agency Overall'];
+          const { abbreviation, components } = selected;
+          const selectedComponents = formatted[abbreviation] || [];
+          const componentAbbreviations = components
+            .filter(component => component.selected)
+            .map(component => component.abbreviation);
+
+          formatted[abbreviation] = selectedComponents.concat(...componentAbbreviations.toArray())
+            .filter((value, index, array) => array.indexOf(value) === index)
+            .sort();
           break;
         }
-
         case 'agency_component': {
-          // @todo: this...
+          const { abbreviation, agency } = selected;
+          const agencyComponents = formatted[agency.abbreviation] || [];
+          formatted[agency.abbreviation] = agencyComponents
+            .concat(abbreviation)
+            .filter((value, index, array) => array.indexOf(value) === index)
+            .sort();
           break;
         }
-
-        default:
+        default: {
           break;
+        }
       }
-    });
-    return formatted;
+
+      return formatted;
+    }, {});
   }
 
   getReportDataForType(dataType) {
