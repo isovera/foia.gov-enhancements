@@ -191,19 +191,19 @@
       {
         "id": "field_req_viiia.field_med_days_jud",
         "label": "Median Number of Days to Adjudicate",
-        "filter": true,
+        "filter": "field_req_viiia.field_med_days_jud.value",
         "overall_field": "field_overall_viiia_med_days_jud"
       },
       {
         "id": "field_req_viiia.field_avg_days_jud",
         "label": "Average Number of Days to Adjudicate",
-        "filter": true,
+        "filter": "field_req_viiia.field_avg_days_jud.value",
         "overall_field": "field_overall_viiia_avg_days_jud"
       },
       {
         "id": "field_req_viiia.field_num_jud_w10",
         "label": "Number Adjudicated Within Ten Calendar Days",
-        "filter": true,
+        "filter": "field_req_viiia.field_num_jud_w10.value",
         "overall_field": "field_overall_viiia_num_jud_w10"
       },
       {
@@ -677,25 +677,25 @@
       {
         "id": "field_admin_app_vic4.field_med_num_days",
         "label": "Median Number of Days",
-        "filter": true,
+        "filter": "field_admin_app_vic4.field_med_num_days.value",
         "overall_field": "field_overall_vic4_med_num_days"
       },
       {
         "id": "field_admin_app_vic4.field_avg_num_days",
         "label": "Average Number of Days",
-        "filter": true,
+        "filter": "field_admin_app_vic4.field_avg_num_days.value",
         "overall_field": "field_overall_vic4_avg_num_days"
       },
       {
         "id": "field_admin_app_vic4.field_low_num_days",
         "label": "Lowest Number of Days",
-        "filter": true,
+        "filter": "field_admin_app_vic4.field_low_num_days.value",
         "overall_field": "field_overall_vic4_low_num_days"
       },
       {
         "id": "field_admin_app_vic4.field_high_num_days",
         "label": "Highest Number of Days",
-        "filter": true,
+        "filter": "field_admin_app_vic4.field_high_num_days.value",
         "overall_field": "field_overall_vic4_high_num_days"
       },
       {
@@ -724,7 +724,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_10",
         "label": "10th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_10.value",
         "overall_field": "field_overall_vic5_num_day_10"
       },
       {
@@ -736,7 +736,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_9",
         "label": "9th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_9.value",
         "overall_field": "field_overall_vic5_num_day_9"
       },
       {
@@ -748,7 +748,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_8",
         "label": "8th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_8.value",
         "overall_field": "field_overall_vic5_num_day_8"
       },
       {
@@ -760,7 +760,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_7",
         "label": "7th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_7.value",
         "overall_field": "field_overall_vic5_num_day_7"
       },
       {
@@ -772,7 +772,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_6",
         "label": "6th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_6.value",
         "overall_field": "field_overall_vic5_num_day_6"
       },
       {
@@ -784,7 +784,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_5",
         "label": "5th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_5.value",
         "overall_field": "field_overall_vic5_num_day_5"
       },
       {
@@ -796,7 +796,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_4",
         "label": "4th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_4.value",
         "overall_field": "field_overall_vic5_num_day_4"
       },
       {
@@ -808,7 +808,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_3",
         "label": "3rd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_3.value",
         "overall_field": "field_overall_vic5_num_day_3"
       },
       {
@@ -820,7 +820,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_2",
         "label": "2nd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_2.value",
         "overall_field": "field_overall_vic5_num_day_2"
       },
       {
@@ -832,7 +832,7 @@
       {
         "id": "field_admin_app_vic5.field_num_days_1",
         "label": "Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_vic5.field_num_days_1.value",
         "overall_field": "field_overall_vic5_num_day_1"
       },
       {
@@ -855,73 +855,73 @@
       {
         "id": "field_proc_req_viia.field_sim_med",
         "label": "Simple - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_sim_med.value",
         "overall_field": "field_overall_viia_sim_med"
       },
       {
         "id": "field_proc_req_viia.field_sim_avg",
         "label": "Simple - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_sim_avg.value",
         "overall_field": "field_overall_viia_sim_avg"
       },
       {
         "id": "field_proc_req_viia.field_sim_low",
         "label": "Simple - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_sim_low.value",
         "overall_field": "field_overall_viia_sim_low"
       },
       {
         "id": "field_proc_req_viia.field_sim_high",
         "label": "Simple - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_sim_high.value",
         "overall_field": "field_overall_viia_sim_high"
       },
       {
         "id": "field_proc_req_viia.field_comp_med",
         "label": "Complex - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_comp_med.value",
         "overall_field": "field_overall_viia_comp_med"
       },
       {
         "id": "field_proc_req_viia.field_comp_avg",
         "label": "Complex - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_comp_avg.value",
         "overall_field": "field_overall_viia_comp_avg"
       },
       {
         "id": "field_proc_req_viia.field_comp_low",
         "label": "Complex - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_comp_low.value",
         "overall_field": "field_overall_viia_comp_low"
       },
       {
         "id": "field_proc_req_viia.field_comp_high",
         "label": "Complex - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_comp_high.value",
         "overall_field": "field_overall_viia_comp_high"
       },
       {
         "id": "field_proc_req_viia.field_exp_med",
         "label": "Expedited Processing - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_exp_med.value",
         "overall_field": "field_overall_viia_exp_med"
       },
       {
         "id": "field_proc_req_viia.field_exp_avg",
         "label": "Expedited Processing - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_exp_avg.value",
         "overall_field": "field_overall_viia_exp_avg"
       },
       {
         "id": "field_proc_req_viia.field_exp_low",
         "label": "Expedited Processing - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_exp_low.value",
         "overall_field": "field_overall_viia_exp_low"
       },
       {
         "id": "field_proc_req_viia.field_exp_high",
         "label": "Expedited Processing - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viia.field_exp_high.value",
         "overall_field": "field_overall_viia_exp_high"
       },
       {
@@ -944,73 +944,73 @@
       {
         "id": "field_proc_req_viib.field_sim_med",
         "label": "Simple - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_sim_med.value",
         "overall_field": "field_overall_viib_sim_med"
       },
       {
         "id": "field_proc_req_viib.field_sim_avg",
         "label": "Simple - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_sim_avg.value",
         "overall_field": "field_overall_viib_sim_avg"
       },
       {
         "id": "field_proc_req_viib.field_sim_low",
         "label": "Simple - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_sim_low.value",
         "overall_field": "field_overall_viib_sim_low"
       },
       {
         "id": "field_proc_req_viib.field_sim_high",
         "label": "Simple - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_sim_high.value",
         "overall_field": "field_overall_viib_sim_high"
       },
       {
         "id": "field_proc_req_viib.field_comp_med",
         "label": "Complex - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_comp_med.value",
         "overall_field": "field_overall_viib_comp_med"
       },
       {
         "id": "field_proc_req_viib.field_comp_avg",
         "label": "Complex - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_comp_avg.value",
         "overall_field": "field_overall_viib_comp_avg"
       },
       {
         "id": "field_proc_req_viib.field_comp_low",
         "label": "Complex - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_comp_low.value",
         "overall_field": "field_overall_viib_comp_low"
       },
       {
         "id": "field_proc_req_viib.field_comp_high",
         "label": "Complex - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_comp_high.value",
         "overall_field": "field_overall_viib_comp_high"
       },
       {
         "id": "field_proc_req_viib.field_exp_med",
         "label": "Expedited Processing - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_exp_med.value",
         "overall_field": "field_overall_viib_exp_med"
       },
       {
         "id": "field_proc_req_viib.field_exp_avg",
         "label": "Expedited Processing - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_exp_avg.value",
         "overall_field": "field_overall_viib_exp_avg"
       },
       {
         "id": "field_proc_req_viib.field_exp_low",
         "label": "Expedited Processing - Lowest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_exp_low.value",
         "overall_field": "field_overall_viib_exp_low"
       },
       {
         "id": "field_proc_req_viib.field_exp_high",
         "label": "Expedited Processing - Highest Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_viib.field_exp_high.value",
         "overall_field": "field_overall_viib_exp_high"
       },
       {
@@ -1336,55 +1336,55 @@
       {
         "id": "field_proc_req_vii_d_.field_sim_pend",
         "label": "Simple - Number Pending",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_sim_pend.value",
         "overall_field": "field_overall_viid_sim_pend"
       },
       {
         "id": "field_proc_req_vii_d_.field_sim_med",
         "label": "Simple - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_sim_med.value",
         "overall_field": "field_overall_viid_sim_med"
       },
       {
         "id": "field_proc_req_vii_d_.field_sim_avg",
         "label": "Simple - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_sim_avg.value",
         "overall_field": "field_overall_viid_sim_avg"
       },
       {
         "id": "field_proc_req_vii_d_.field_comp_pend",
         "label": "Complex - Number Pending",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_comp_pend.value",
         "overall_field": "field_overall_viid_comp_pend"
       },
       {
         "id": "field_proc_req_vii_d_.field_comp_med",
         "label": "Complex - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_comp_med.value",
         "overall_field": "field_overall_viid_comp_med"
       },
       {
         "id": "field_proc_req_vii_d_.field_comp_avg",
         "label": "Complex - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_comp_avg.value",
         "overall_field": "field_overall_viid_comp_avg"
       },
       {
         "id": "field_proc_req_vii_d_.field_exp_pend",
         "label": "Expedited Processing - Number Pending",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_exp_pend.value",
         "overall_field": "field_overall_viid_exp_pend"
       },
       {
         "id": "field_proc_req_vii_d_.field_exp_med",
         "label": "Expedited Processing - Median Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_exp_med.value",
         "overall_field": "field_overall_viid_exp_med"
       },
       {
         "id": "field_proc_req_vii_d_.field_exp_avg",
         "label": "Expedited Processing - Average Number of Days",
-        "filter": true,
+        "filter": "field_proc_req_vii_d_.field_exp_avg.value",
         "overall_field": "field_overall_viid_exp_avg"
       },
       {
@@ -1413,7 +1413,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_10",
         "label": "10th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_10.value",
         "overall_field": "field_overall_viie_num_days_10"
       },
       {
@@ -1425,7 +1425,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_9",
         "label": "9th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_9.value",
         "overall_field": "field_overall_viie_num_days_9"
       },
       {
@@ -1437,7 +1437,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_8",
         "label": "8th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_8.value",
         "overall_field": "field_overall_viie_num_days_8"
       },
       {
@@ -1449,7 +1449,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_7",
         "label": "7th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_7.value",
         "overall_field": "field_overall_viie_num_days_7"
       },
       {
@@ -1461,7 +1461,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_6",
         "label": "6th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_6.value",
         "overall_field": "field_overall_viie_num_days_6"
       },
       {
@@ -1473,7 +1473,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_5",
         "label": "5th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_5.value",
         "overall_field": "field_overall_viie_num_days_5"
       },
       {
@@ -1485,7 +1485,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_4",
         "label": "4th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_4.value",
         "overall_field": "field_overall_viie_num_days_4"
       },
       {
@@ -1497,7 +1497,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_3",
         "label": "3rd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_3.value",
         "overall_field": "field_overall_viie_num_days_3"
       },
       {
@@ -1509,7 +1509,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_2",
         "label": "2nd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_2.value",
         "overall_field": "field_overall_viie_num_days_2"
       },
       {
@@ -1521,7 +1521,7 @@
       {
         "id": "field_admin_app_viie.field_num_days_1",
         "label": "Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_admin_app_viie.field_num_days_1.value",
         "overall_field": "field_overall_viie_num_days_1"
       },
       {
@@ -1556,13 +1556,13 @@
       {
         "id": "field_req_viiib.field_med_days_jud",
         "label": "Median Number of Days to Adjudicate",
-        "filter": true,
+        "filter": "field_req_viiib.field_med_days_jud.value",
         "overall_field": "field_overall_viiib_med_days_jud"
       },
       {
         "id": "field_req_viiib.field_avg_days_jud",
         "label": "Average Number of Days to Adjudicate",
-        "filter": true,
+        "filter": "field_req_viiib.field_avg_days_jud.value",
         "overall_field": "field_overall_viiib_avg_days_jud"
       },
       {
@@ -1733,7 +1733,7 @@
       {
         "id": "field_foia_xiia.field_back_app_end_yr",
         "label": "Number of Backlogged Appeals as of End of Fiscal Year",
-        "filter": true,
+        "filter": "field_foia_xiia.field_back_app_end_yr.value",
         "overall_field": "field_overall_xiia_back_app_end_"
       },
       {
@@ -1803,7 +1803,7 @@
       {
         "id": "field_foia_xiic.field_num_days_10",
         "label": "10th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_10.value",
         "overall_field": "field_overall_xiic_num_days_10"
       },
       {
@@ -1815,7 +1815,7 @@
       {
         "id": "field_foia_xiic.field_num_days_9",
         "label": "9th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_9.value",
         "overall_field": "field_overall_xiic_num_days_9"
       },
       {
@@ -1827,7 +1827,7 @@
       {
         "id": "field_foia_xiic.field_num_days_8",
         "label": "8th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_8.value",
         "overall_field": "field_overall_xiic_num_days_8"
       },
       {
@@ -1839,7 +1839,7 @@
       {
         "id": "field_foia_xiic.field_num_days_7",
         "label": "7th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_7.value",
         "overall_field": "field_overall_xiic_num_days_7"
       },
       {
@@ -1851,7 +1851,7 @@
       {
         "id": "field_foia_xiic.field_num_days_6",
         "label": "6th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_6.value",
         "overall_field": "field_overall_xiic_num_days_6"
       },
       {
@@ -1863,7 +1863,7 @@
       {
         "id": "field_foia_xiic.field_num_days_5",
         "label": "5th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_5.value",
         "overall_field": "field_overall_xiic_num_days_5"
       },
       {
@@ -1875,7 +1875,7 @@
       {
         "id": "field_foia_xiic.field_num_days_4",
         "label": "4th Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_4.value",
         "overall_field": "field_overall_xiic_num_days_4"
       },
       {
@@ -1887,7 +1887,7 @@
       {
         "id": "field_foia_xiic.field_num_days_3",
         "label": "3rd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_3.value",
         "overall_field": "field_overall_xiic_num_days_3"
       },
       {
@@ -1899,7 +1899,7 @@
       {
         "id": "field_foia_xiic.field_num_days_2",
         "label": "2nd Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_2.value",
         "overall_field": "field_overall_xiic_num_days_2"
       },
       {
@@ -1911,7 +1911,7 @@
       {
         "id": "field_foia_xiic.field_num_days_1",
         "label": "Oldest Number of Days Pending",
-        "filter": true,
+        "filter": "field_foia_xiic.field_num_days_1.value",
         "overall_field": "field_overall_xiic_num_days_1"
       },
       {
