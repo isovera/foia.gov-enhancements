@@ -74,10 +74,10 @@ class AnnualReportStore extends Store {
       const components = report.get('field_agency_components')
         .map(component => component.abbreviation)
         // Filter out components we haven't selected.
-        .filter((component) => {
-          return Object.keys(selectedAgencies).includes(agency_abbr)
-            && selectedAgencies[agency_abbr].includes(component);
-        })
+        .filter(component => (
+          Object.keys(selectedAgencies).includes(agency_abbr)
+          && selectedAgencies[agency_abbr].includes(component)
+        ))
         // Since "Agency Overall" is not represented as a component attached to
         // the report, manually add it to the end of the array when applicable.
         .concat(selectedComponents.filter(component => component === 'Agency Overall'));
