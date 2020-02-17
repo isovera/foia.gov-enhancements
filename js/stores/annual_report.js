@@ -88,6 +88,10 @@ class AnnualReportStore extends Store {
         dataType.fields.forEach((field) => {
           const { id, overall_field } = field;
           const fiscal_year = report.get('field_foia_annual_report_yr');
+          // Do not print a column for footnotes.
+          if (id.indexOf('field_footnote') === 0) {
+            return;
+          }
 
           row = Object.assign(row, {
             component,
