@@ -99,8 +99,11 @@ class AnnualReportStore extends Store {
 
           // Handle agency overall fields.
           if (component.toLowerCase() === 'agency overall') {
-            // @todo: Any specific formatting requirements to consider here for each field value?
-            row[id] = report.get(overall_field);
+            let overall_value = report.get(overall_field);
+            if (typeof overall_value === 'object' && Object.prototype.hasOwnProperty.call(overall_value, 'value')) {
+              overall_value = overall_value.value;
+            }
+            row[id] = overall_value;
             return;
           }
 
