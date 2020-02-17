@@ -23,10 +23,6 @@ class AnnualReportStore extends Store {
   static getSelectedAgencies() {
     // @todo: This method returns agency/component abbreviations, but we may
     // want to return uuids instead.
-    // @todo: remove test values.
-    // const formatted = {
-    //   DOJ: ['OJP', 'ATF', 'FALSEY', 'Agency Overall'],
-    // };
     const { selectedAgencies } = annualReportDataFormStore.getState();
     return selectedAgencies.reduce((formatted, selected) => {
       switch (selected.type) {
