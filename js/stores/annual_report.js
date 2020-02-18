@@ -7,7 +7,7 @@ import { types } from '../actions/report';
 import annualReportDataFormStore from '../stores/annual_report_data_form';
 import annualReportDataTypesStore from './annual_report_data_types';
 import { FoiaAnnualReportRequestBuilder } from '../util/foia_annual_report_request_builder';
-import FoiaAnnualReportRowBuilder from '../util/report_row_builder';
+import FoiaAnnualReportRowBuilder from '../util/foia_annual_report_row_builder';
 
 class AnnualReportStore extends Store {
   constructor(_dispatcher) {
