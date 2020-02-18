@@ -87,9 +87,41 @@ class AnnualReportStore extends Store {
           id: `${agency_abbr}__${abbreviation}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
         });
 
-        // Push the completed row.
-        tableData.push(row);
+        if (component.hasChildren) {
+          // Push the completed rows.
+          const rows = Object.keys(component).map((key) => {
+            if (key === 'hasChildren') {
+              return false;
+            }
+
+            return AnnualReportStore.buildRow(
+              dataType,
+              component[key],
+              abbreviation,
+              Object.assign({}, row),
+            );
+          }).filter(item => item !== false);
+
+          tableData.push(...rows);
+        } else {
+          // Push the completed row.
+          tableData.push(AnnualReportStore.buildRow(dataType, component, abbreviation, row));
+        }
       });
+
+      if (selectedComponents.indexOf('Agency Overall') !== -1) {
+        let row = Object.assign({}, {
+          field_agency_component: 'Agency Overall',
+          field_agency: agency_name,
+          field_foia_annual_report_yr: fiscal_year,
+          // @todo: Confirm: Any requirements on how this string is formed / formatted?
+          id: `${agency_abbr}__Agency_Overall__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
+        });
+
+        row = AnnualReportStore.buildRow(dataType, report, 'Agency Overall', row);
+
+        tableData.push(row);
+      }
     });
 
     return tableData;
