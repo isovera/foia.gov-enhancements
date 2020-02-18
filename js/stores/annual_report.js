@@ -7,6 +7,7 @@ import { types } from '../actions/report';
 import annualReportDataFormStore from '../stores/annual_report_data_form';
 import annualReportDataTypesStore from './annual_report_data_types';
 import { FoiaAnnualReportRequestBuilder } from '../util/foia_annual_report_request_builder';
+import FoiaAnnualReportRowBuilder from '../util/report_row_builder';
 
 class AnnualReportStore extends Store {
   constructor(_dispatcher) {
@@ -79,77 +80,45 @@ class AnnualReportStore extends Store {
           return;
         }
 
-        let row = Object.assign({}, {
+        const row = Object.assign({}, {
           field_agency_component: abbreviation,
           field_agency: agency_name,
           field_foia_annual_report_yr: fiscal_year,
           // @todo: Confirm: Any requirements on how this string is formed / formatted?
           id: `${agency_abbr}__${abbreviation}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
         });
+        const rowBuilder = new FoiaAnnualReportRowBuilder();
 
-        if (component.hasChildren) {
-          // Push the completed rows.
-          const rows = Object.keys(component).map((key) => {
-            if (key === 'hasChildren') {
-              return false;
-            }
-
-            return AnnualReportStore.buildRow(
-              dataType,
-              component[key],
-              abbreviation,
-              Object.assign({}, row),
-            );
-          }).filter(item => item !== false);
-
-          tableData.push(...rows);
-        } else {
-          // Push the completed row.
-          tableData.push(AnnualReportStore.buildRow(dataType, component, abbreviation, row));
-        }
+        tableData.push(
+          ...rowBuilder
+            .setComponent(abbreviation)
+            .setDataType(dataType)
+            .setData(component)
+            .build(row),
+        );
       });
 
       if (selectedComponents.indexOf('Agency Overall') !== -1) {
-        let row = Object.assign({}, {
+        const row = Object.assign({}, {
           field_agency_component: 'Agency Overall',
           field_agency: agency_name,
           field_foia_annual_report_yr: fiscal_year,
           // @todo: Confirm: Any requirements on how this string is formed / formatted?
           id: `${agency_abbr}__Agency_Overall__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
         });
+        const rowBuilder = new FoiaAnnualReportRowBuilder();
 
-        row = AnnualReportStore.buildRow(dataType, report, 'Agency Overall', row);
-
-        tableData.push(row);
+        tableData.push(
+          ...rowBuilder
+            .setComponent('Agency Overall')
+            .setDataType(dataType)
+            .setData(report)
+            .build(row),
+        );
       }
     });
 
     return tableData;
-  }
-
-  static buildRow(dataType, data, abbreviation, row = {}) {
-    // Iterate over fields defined for the dataType.
-    dataType.fields.forEach((field) => {
-      const { id, overall_field } = field;
-      // Do not print a column for footnotes.
-      if (id.indexOf('field_footnote') === 0) {
-        return;
-      }
-
-      // Handle agency overall fields.
-      if (abbreviation.toLowerCase() === 'agency overall') {
-        let overall_value = data.get(overall_field);
-        if (typeof overall_value === 'object' && Object.prototype.hasOwnProperty.call(overall_value, 'value')) {
-          overall_value = overall_value.value;
-        }
-        row[id] = overall_value;
-        return;
-      }
-
-      row[id] = data[id];
-    });
-
-    return row;
   }
 
   static getComponentData(dataType, report) {
