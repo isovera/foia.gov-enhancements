@@ -91,7 +91,7 @@ class AnnualReportStore extends Store {
 
         tableData.push(
           ...rowBuilder
-            .setComponent(abbreviation)
+            .setComponentAbbreviation(abbreviation)
             .setDataType(dataType)
             .setData(component)
             .build(row),
@@ -110,7 +110,7 @@ class AnnualReportStore extends Store {
 
         tableData.push(
           ...rowBuilder
-            .setComponent('Agency Overall')
+            .setComponentAbbreviation('Agency Overall')
             .setDataType(dataType)
             .setData(report)
             .build(row),
