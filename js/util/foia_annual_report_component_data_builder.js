@@ -1,14 +1,10 @@
-/**
- * Builds an array of component data based on data type and report
- */
 import annualReportDataTypesStore from '../stores/annual_report_data_types';
 import { FoiaAnnualReportRequestBuilder } from './foia_annual_report_request_builder';
 
+/**
+ * Builds an array of component data based on data type and report
+ */
 class FoiaAnnualReportComponentDataBuilder {
-  constructor() {
-    this.componentData = {};
-  }
-
   setDataType(dataTypeId) {
     this.dataType = annualReportDataTypesStore.getDataType(dataTypeId);
     this.fields = FoiaAnnualReportRequestBuilder.getSectionFields([this.dataType], false);
@@ -25,7 +21,7 @@ class FoiaAnnualReportComponentDataBuilder {
   build() {
     const reportFields = this.fields.annual_foia_report_data || [];
 
-    this.componentData = reportFields.reduce((componentData, field) => {
+    return reportFields.reduce((componentData, field) => {
       if (field.indexOf('field_footnote') === 0) {
         return componentData;
       }
@@ -37,14 +33,10 @@ class FoiaAnnualReportComponentDataBuilder {
         childData = childData.concat(...this.getChildData(field, component));
       }
 
-      const data = childData.reduce((accumulator, datum) => (
+      return childData.reduce((accumulator, datum) => (
         FoiaAnnualReportComponentDataBuilder.merge(accumulator, datum, field)
       ), componentData);
-
-      return data;
-    }, this.componentData);
-
-    return this.componentData;
+    }, {});
   }
 
   getChildData(field, component) {
