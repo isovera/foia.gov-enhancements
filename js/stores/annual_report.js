@@ -5,6 +5,8 @@ import { types } from '../actions/report';
 
 // @todo: remove, not sure this should be used this way...
 import annualReportDataFormStore from '../stores/annual_report_data_form';
+import annualReportDataTypesStore from './annual_report_data_types';
+import { FoiaAnnualReportRequestBuilder } from '../util/foia_annual_report_request_builder';
 
 class AnnualReportStore extends Store {
   constructor(_dispatcher) {
@@ -68,21 +70,14 @@ class AnnualReportStore extends Store {
     reports.forEach((report) => {
       const { abbreviation: agency_abbr, name: agency_name } = report.get('field_agency');
       const selectedComponents = [...selectedAgencies[agency_abbr] || []];
+      const componentData = AnnualReportStore.getComponentData(dataType, report);
 
-      // @todo: may want to refactor part of the loop so that it's run only once
-      // for the ANNUAL_REPORT_DATA_COMPLETE event instead of for each dataType.
-      const components = report.get('field_agency_components')
-        .map(component => component.abbreviation)
-        // Filter out components we haven't selected.
-        .filter(component => (
-          Object.keys(selectedAgencies).includes(agency_abbr)
-          && selectedAgencies[agency_abbr].includes(component)
-        ))
-        // Since "Agency Overall" is not represented as a component attached to
-        // the report, manually add it to the end of the array when applicable.
-        .concat(selectedComponents.filter(component => component === 'Agency Overall'));
+      selectedComponents.forEach((abbreviation) => {
+        const component = componentData[abbreviation] || false;
+        if (!component) {
+          return;
+        }
 
-      components.forEach((component) => {
         let row = {};
         // Iterate over fields defined for the dataType.
         dataType.fields.forEach((field) => {
@@ -94,15 +89,15 @@ class AnnualReportStore extends Store {
           }
 
           row = Object.assign(row, {
-            component,
-            agency: agency_name,
-            fiscal_year,
+            field_agency_component: abbreviation,
+            field_agency: agency_name,
+            field_foia_annual_report_yr: fiscal_year,
             // @todo: Confirm: Any requirements on how this string is formed / formatted?
-            id: `${agency_abbr}__${component}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
+            id: `${agency_abbr}__${abbreviation}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
           });
 
           // Handle agency overall fields.
-          if (component.toLowerCase() === 'agency overall') {
+          if (abbreviation.toLowerCase() === 'agency overall') {
             let overall_value = report.get(overall_field);
             if (typeof overall_value === 'object' && Object.prototype.hasOwnProperty.call(overall_value, 'value')) {
               overall_value = overall_value.value;
