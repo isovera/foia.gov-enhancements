@@ -95,6 +95,30 @@ class AnnualReportStore extends Store {
     return tableData;
   }
 
+  static buildRow(dataType, data, abbreviation, row = {}) {
+    // Iterate over fields defined for the dataType.
+    dataType.fields.forEach((field) => {
+      const { id, overall_field } = field;
+      // Do not print a column for footnotes.
+      if (id.indexOf('field_footnote') === 0) {
+        return;
+      }
+
+      // Handle agency overall fields.
+      if (abbreviation.toLowerCase() === 'agency overall') {
+        let overall_value = data.get(overall_field);
+        if (typeof overall_value === 'object' && Object.prototype.hasOwnProperty.call(overall_value, 'value')) {
+          overall_value = overall_value.value;
+        }
+        row[id] = overall_value;
+        return;
+      }
+
+      row[id] = data[id];
+    });
+
+    return row;
+  }
 
   static getComponentData(dataType, report) {
     const fields = FoiaAnnualReportRequestBuilder.getSectionFields([dataType], false);
