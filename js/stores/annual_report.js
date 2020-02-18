@@ -95,6 +95,98 @@ class AnnualReportStore extends Store {
     return tableData;
   }
 
+
+  static getComponentData(dataType, report) {
+    const fields = FoiaAnnualReportRequestBuilder.getSectionFields([dataType], false);
+    if (fields.annual_foia_report_data.length <= 0) {
+      return [];
+    }
+
+    return fields.annual_foia_report_data.reduce((accumulator, field) => {
+      if (field.indexOf('field_footnote') === 0) {
+        return accumulator;
+      }
+
+      const fieldData = [...report.get(field)];
+      while (fieldData.length > 0) {
+        const component = fieldData.pop();
+        const data = AnnualReportStore.getChildData(fields, field, component);
+
+        if (data.length <= 0) {
+          continue;
+        }
+
+        data.forEach((datum) => {
+          const abbreviation = datum.component || false;
+          if (!abbreviation) {
+            return;
+          }
+
+          if (field === 'field_statute_iv') {
+            const statute = datum['field_statute_iv.field_statute']
+              .replace(/[^a-zA-Z0-9]/g, '_')
+              .toLowerCase();
+            let existing = accumulator[abbreviation] || false;
+            if (existing) {
+              existing = existing[statute] || {};
+              accumulator[abbreviation][statute] = Object.assign(existing, datum);
+            } else {
+              const updated = {};
+              updated[statute] = datum;
+              accumulator[abbreviation] = Object.assign({ hasChildren: true }, updated);
+            }
+            return;
+          }
+
+          const existing = accumulator[abbreviation] || { hasChildren: false };
+          accumulator[abbreviation] = Object.assign(existing, datum);
+        });
+      }
+      return accumulator;
+    }, {});
+  }
+
+  static getChildData(fields, field, component) {
+    const childFields = fields[field] || [];
+    let data = [];
+    Object.keys(component).forEach((key) => {
+      let value = component[key];
+      let property = `${field}.${key}`;
+      if (typeof value === 'object' && value !== null && Object.prototype.hasOwnProperty.call(value, 'value')) {
+        value = value.value;
+      }
+
+      if (key === 'field_agency_component') {
+        value = component.field_agency_component.abbreviation;
+        property = 'component';
+      }
+
+      if (childFields.indexOf(key) !== -1 || key === 'field_agency_component') {
+        if (data.length === 0) {
+          const item = {};
+          item[property] = value;
+          data.push(item);
+        } else {
+          data = data.map((item) => {
+            item[property] = value;
+            return item;
+          });
+        }
+      }
+
+      if (fields[`${field}.${key}`]) {
+        const childData = component[key].reduce((children, child) => (
+          children.concat(...AnnualReportStore.getChildData(fields, `${field}.${key}`, child))
+        ), []);
+        data = childData.reduce((flattened, child) => (
+          flattened.concat(...data.map(parent => Object.assign(parent, child)))
+        ), []);
+      }
+    });
+
+    return data;
+  }
+
   __onDispatch(payload) {
     switch (payload.type) {
       // @todo: this is all temporary. Remove in favor of Steph's work
