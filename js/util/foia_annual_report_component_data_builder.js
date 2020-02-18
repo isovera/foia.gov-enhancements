@@ -5,6 +5,13 @@ import { FoiaAnnualReportRequestBuilder } from './foia_annual_report_request_bui
  * Builds an array of component data based on data type and report
  */
 class FoiaAnnualReportComponentDataBuilder {
+  /**
+   * Set the data type that data will be retrieved for.
+   *
+   * @param {string} dataTypeId
+   *   A data type id, based on the group id's in report_data_map.json.
+   * @returns {FoiaAnnualReportComponentDataBuilder}
+   */
   setDataType(dataTypeId) {
     this.dataType = annualReportDataTypesStore.getDataType(dataTypeId);
     this.fields = FoiaAnnualReportRequestBuilder.getSectionFields([this.dataType], false);
@@ -12,13 +19,50 @@ class FoiaAnnualReportComponentDataBuilder {
     return this;
   }
 
+  /**
+   * Set the report that data should be retrieved from.
+   *
+   * @param {Map} report
+   *   An annual report Map object.
+   * @returns {FoiaAnnualReportComponentDataBuilder}
+   */
   setReport(report) {
     this.report = report;
 
     return this;
   }
 
+  /**
+   * Build an object of component data from the report data, based on the fields in the
+   * data type.
+   *
+   * @returns {Object}
+   * - An object of mapped component abbreviations and their fields.
+   * {
+   *   'USPS': {
+   *     field_example_parent.field_example_one: 3,
+   *     field_example_parent.field_example_two: 4,
+   *   }
+   * }
+   * - An object of mapped component abbreviations and their statutes,
+   *  if the data type includes field_statute_iv.
+   * {
+   *  'USPS': {
+   *    hasChildren: true,
+   *    'example_statute_name_one': {
+   *      field_statute_iv.field_example_one: 3,
+   *      field_statute_iv.field_example_one: 4,
+   *    },
+   *    'example_statute_name_two': {
+   *      field_statute_iv.field_example_one: 3,
+   *      field_statute_iv.field_example_one: 4,
+   *    },
+   *  }
+   * }
+   */
   build() {
+    // This is an array of fields that exist directly on the report and are
+    // included by this data type.
     const reportFields = this.fields.annual_foia_report_data || [];
 
     return reportFields.reduce((componentData, field) => {
@@ -28,17 +72,29 @@ class FoiaAnnualReportComponentDataBuilder {
 
       let childData = [];
       const fieldData = [...this.report.get(field)];
+      // Flatten each piece of data that exists for the field in this report.
       while (fieldData.length > 0) {
         const component = fieldData.pop();
         childData = childData.concat(...this.getChildData(field, component));
       }
 
+      // Merge all the data into an object keyed by a component abbreviation.
+      // If a data type consists of data from multiple different drupal paragraph
+      // fields, this will zip the paragraph data into a single object
+      // per component.
       return childData.reduce((accumulator, datum) => (
         FoiaAnnualReportComponentDataBuilder.merge(accumulator, datum, field)
       ), componentData);
     }, {});
   }
 
+  /**
+   * Flattens field data into an array of data objects.
+   *
+   * @param field
+   * @param component
+   * @returns {[]}
+   */
   getChildData(field, component) {
     const childFields = this.fields[field] || [];
     let data = [];
@@ -80,6 +136,20 @@ class FoiaAnnualReportComponentDataBuilder {
     return data;
   }
 
+  /**
+   * Merges a data object into an object keyed by the component abbreviation.
+   *
+   * New data will overwrite existing data if it contains the same keys and component abbreviation.
+   *
+   * @param {Object} existing
+   *   The object to merge data into.
+   * @param {Object} datum
+   *   The data object to merge.
+   * @param {string} parent
+   *   The parent field name.
+   * @returns {{}}
+   *   An object of data, keyed by component abbreviation, that contains old and new values.
+   */
   static merge(existing = {}, datum, parent) {
     const abbreviation = datum.component || false;
     if (!abbreviation) {
@@ -96,6 +166,19 @@ class FoiaAnnualReportComponentDataBuilder {
     return existing;
   }
 
+  /**
+   * Merges a statute data object into an object keyed by component abbreviation and statute name.
+   *
+   * New data will overwrite existing data if it contains the same keys, component abbreviation,
+   * and statute name.
+   *
+   * @param {Object} existing
+   *   The object to merge data into.
+   * @param statute
+   *   The statute data to merge in.
+   * @returns {Object}
+   *   An object of components and statutes.
+   */
   static mergeStatute(existing, statute) {
     const abbreviation = statute.component || false;
     if (!abbreviation) {
