@@ -69,6 +69,7 @@ class AnnualReportStore extends Store {
     // Iterate over each report.
     reports.forEach((report) => {
       const { abbreviation: agency_abbr, name: agency_name } = report.get('field_agency');
+      const fiscal_year = report.get('field_foia_annual_report_yr');
       const selectedComponents = [...selectedAgencies[agency_abbr] || []];
       const componentData = AnnualReportStore.getComponentData(dataType, report);
 
@@ -78,37 +79,12 @@ class AnnualReportStore extends Store {
           return;
         }
 
-        let row = {};
-        // Iterate over fields defined for the dataType.
-        dataType.fields.forEach((field) => {
-          const { id, overall_field } = field;
-          const fiscal_year = report.get('field_foia_annual_report_yr');
-          // Do not print a column for footnotes.
-          if (id.indexOf('field_footnote') === 0) {
-            return;
-          }
-
-          row = Object.assign(row, {
-            field_agency_component: abbreviation,
-            field_agency: agency_name,
-            field_foia_annual_report_yr: fiscal_year,
-            // @todo: Confirm: Any requirements on how this string is formed / formatted?
-            id: `${agency_abbr}__${abbreviation}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
-          });
-
-          // Handle agency overall fields.
-          if (abbreviation.toLowerCase() === 'agency overall') {
-            let overall_value = report.get(overall_field);
-            if (typeof overall_value === 'object' && Object.prototype.hasOwnProperty.call(overall_value, 'value')) {
-              overall_value = overall_value.value;
-            }
-            row[id] = overall_value;
-            return;
-          }
-
-          // @todo: handle all other fields in FOIA-320.
-          const parts = id.split('.');
-          row[id] = `Implementation pending for ${parts.join(' --> ')}`;
+        let row = Object.assign({}, {
+          field_agency_component: abbreviation,
+          field_agency: agency_name,
+          field_foia_annual_report_yr: fiscal_year,
+          // @todo: Confirm: Any requirements on how this string is formed / formatted?
+          id: `${agency_abbr}__${abbreviation}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
         });
 
         // Push the completed row.
