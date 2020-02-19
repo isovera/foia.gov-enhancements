@@ -183,8 +183,7 @@ class AnnualReportStore extends Store {
                   align: 'center',
                 }));
             const reportHeaders = defaultColumns.concat(dataColumns);
-            // @TODO: Actually fetch the data from the JSON:API result.
-            const dataRows = [];
+            const dataRows = this.getReportDataForType(dataType);
             tables.push({
               id: dataType.id,
               header: dataType.heading,
