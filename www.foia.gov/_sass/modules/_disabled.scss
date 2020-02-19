@@ -8,10 +8,10 @@
     @extend .usa-button-disabled;
   }
 
-  label,
   input,
-  textarea,
-  select {
+  label,
+  select,
+  textarea {
     color: $color-gray;
   }
 }
