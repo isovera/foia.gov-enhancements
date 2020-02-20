@@ -3,6 +3,7 @@ import { Store } from 'flux/utils';
 import dispatcher from '../util/dispatcher';
 import { types } from '../actions/report';
 import annualReportDataFormStore from './annual_report_data_form';
+import FoiaAnnualReportUtilities from '../util/foia_annual_report_utilities';
 
 class AnnualReportStore extends Store {
   constructor(_dispatcher) {
@@ -68,49 +69,35 @@ class AnnualReportStore extends Store {
     reports.forEach((report) => {
       const { abbreviation: agency_abbr, name: agency_name } = report.get('field_agency');
       const selectedComponents = [...selectedAgencies[agency_abbr] || []];
+      const flattened = FoiaAnnualReportUtilities.getDataForType(report, dataType);
 
-      // @todo: may want to refactor part of the loop so that it's run only once
-      // for the ANNUAL_REPORT_DATA_COMPLETE event instead of for each dataType.
-      const components = report.get('field_agency_components')
-        .map(component => component.abbreviation)
-        // Filter out components we haven't selected.
-        .filter((component) => {
-          return Object.keys(selectedAgencies).includes(agency_abbr)
-            && selectedAgencies[agency_abbr].includes(component);
-        })
-        // Since "Agency Overall" is not represented as a component attached to
-        // the report, manually add it to the end of the array when applicable.
-        .concat(selectedComponents.filter(component => component === 'Agency Overall'));
+      selectedComponents.forEach((component) => {
+        const fiscal_year = report.get('field_foia_annual_report_yr');
+        const defaults = {
+          field_agency_component: component,
+          field_agency: agency_name,
+          field_foia_annual_report_yr: fiscal_year,
+        };
 
-      components.forEach((component) => {
-        let row = {};
-        // Iterate over fields defined for the dataType.
-        dataType.fields.forEach((field) => {
-          const { id, overall_field } = field;
-          const fiscal_year = report.get('field_foia_annual_report_yr');
-
-          row = Object.assign(row, {
-            component,
-            agency: agency_name,
-            fiscal_year,
-            // @todo: Confirm: Any requirements on how this string is formed / formatted?
-            id: `${agency_abbr}__${component}__${fiscal_year}`.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(),
-          });
-
-          // Handle agency overall fields.
-          if (component.toLowerCase() === 'agency overall') {
-            // @todo: Any specific formatting requirements to consider here for each field value?
-            row[id] = report.get(overall_field);
-            return;
+        // It is not guaranteed that the flattened data will be keyed by
+        // a component abbreviation.  This gathers an array of all the rows
+        // for this component.
+        const rows = Object.keys(flattened).map((key) => {
+          if (flattened[key].field_agency_component !== component) {
+            return false;
           }
 
-          // @todo: handle all other fields in FOIA-320.
-          const parts = id.split('.');
-          row[id] = `Implementation pending for ${parts.join(' --> ')}`;
-        });
+          return flattened[key];
+        }).filter(value => value !== false);
 
-        // Push the completed row.
-        tableData.push(row);
+
+        tableData.push(...rows.map((row) => {
+          // Normalization essentially checks every field to see if it's
+          // an object with a value property.  If it is, it sets the field to the
+          // field.value, allowing tablulator to use the ids in report_data_map.json.
+          const normalized = FoiaAnnualReportUtilities.normalize(row);
+          return Object.assign({}, defaults, normalized);
+        }));
       });
     });
 
