@@ -22,8 +22,6 @@ class AnnualReportStore extends Store {
 
 
   static getSelectedAgencies() {
-    // @todo: This method returns agency/component abbreviations, but we may
-    // want to return uuids instead.
     const { selectedAgencies } = annualReportDataFormStore.getState();
     return selectedAgencies.reduce((formatted, selected) => {
       switch (selected.type) {
@@ -58,9 +56,7 @@ class AnnualReportStore extends Store {
   }
 
   getReportDataForType(dataType) {
-    // @todo: Confirm: Any need to filter invalid fiscal years here? Any need to
-    // filter data based on any other report filters here? Assuming not...
-
+    // @todo: Filter rows based on data type filters.
     const tableData = [];
     const { reports } = this.state;
     const selectedAgencies = AnnualReportStore.getSelectedAgencies();
