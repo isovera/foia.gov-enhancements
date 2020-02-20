@@ -57,7 +57,8 @@ class AnnualReportStore extends Store {
 
   getReportDataForType(dataType) {
     // @todo: Filter rows based on data type filters.
-    const tableData = [];
+    const componentData = [];
+    const overallData = [];
     const { reports } = this.state;
     const selectedAgencies = AnnualReportStore.getSelectedAgencies();
 
@@ -65,7 +66,10 @@ class AnnualReportStore extends Store {
     reports.forEach((report) => {
       const { abbreviation: agency_abbr, name: agency_name } = report.get('field_agency');
       const selectedComponents = [...selectedAgencies[agency_abbr] || []];
+      // When all agencies are selected, only overall fields are retrieved, so the
+      // getDataForType() function call will fail.
       const flattened = FoiaAnnualReportUtilities.getDataForType(report, dataType);
+      const overall = FoiaAnnualReportUtilities.getOverallDataForType(report, dataType);
 
       selectedComponents.forEach((component) => {
         const fiscal_year = report.get('field_foia_annual_report_yr');
@@ -74,6 +78,12 @@ class AnnualReportStore extends Store {
           field_agency: agency_name,
           field_foia_annual_report_yr: fiscal_year,
         };
+
+        if (component.toLowerCase() === 'agency overall') {
+          const row = Object.assign(defaults, overall);
+          overallData.push(FoiaAnnualReportUtilities.normalize(row));
+          return;
+        }
 
         // It is not guaranteed that the flattened data will be keyed by
         // a component abbreviation.  This gathers an array of all the rows
@@ -87,7 +97,7 @@ class AnnualReportStore extends Store {
         }).filter(value => value !== false);
 
 
-        tableData.push(...rows.map((row) => {
+        componentData.push(...rows.map((row) => {
           // Normalization essentially checks every field to see if it's
           // an object with a value property.  If it is, it sets the field to the
           // field.value, allowing tablulator to use the ids in report_data_map.json.
@@ -97,7 +107,7 @@ class AnnualReportStore extends Store {
       });
     });
 
-    return tableData;
+    return componentData.concat(overallData);
   }
 
   __onDispatch(payload) {
