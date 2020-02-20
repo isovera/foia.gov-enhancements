@@ -78,32 +78,32 @@ class AnnualReportStore extends Store {
           field_agency: agency_name,
           field_foia_annual_report_yr: fiscal_year,
         };
-
-        if (component.toLowerCase() === 'agency overall') {
-          const row = Object.assign(defaults, overall);
-          overallData.push(FoiaAnnualReportUtilities.normalize(row));
-          return;
-        }
+        const allRows = component.toLowerCase() === 'agency overall' ? overall : flattened;
 
         // It is not guaranteed that the flattened data will be keyed by
         // a component abbreviation.  This gathers an array of all the rows
         // for this component.
-        const rows = Object.keys(flattened).map((key) => {
-          if (flattened[key].field_agency_component !== component) {
+        const componentRows = Object.keys(allRows).map((key) => {
+          if (allRows[key].field_agency_component !== component) {
             return false;
           }
 
-          return flattened[key];
+          return allRows[key];
         }).filter(value => value !== false);
 
 
-        componentData.push(...rows.map((row) => {
+        const normalized = componentRows.map((row) => {
           // Normalization essentially checks every field to see if it's
           // an object with a value property.  If it is, it sets the field to the
           // field.value, allowing tablulator to use the ids in report_data_map.json.
-          const normalized = FoiaAnnualReportUtilities.normalize(row);
-          return Object.assign({}, defaults, normalized);
-        }));
+          return Object.assign({}, defaults, FoiaAnnualReportUtilities.normalize(row));
+        });
+
+        if (component.toLowerCase() === 'agency overall') {
+          overallData.push(...normalized);
+        } else {
+          componentData.push(...normalized);
+        }
       });
     });
 
