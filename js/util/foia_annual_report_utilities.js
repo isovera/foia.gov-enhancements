@@ -90,19 +90,6 @@ class FoiaAnnualReportUtilities {
     }, {});
   }
 
-  static assignDeep(object, path, value) {
-    const parts = path.split('.');
-    const key = parts.shift();
-    if (parts.length === 0) {
-      object[key] = value;
-      return object;
-    }
-    const next = object[key] || {};
-    object[key] = FoiaAnnualReportUtilities.assignDeep(next, parts.join('.'), value);
-
-    return object;
-  }
-
   /**
    * Flattens any field data required by the data type, then merges field data that shares
    * a unique identifier.
@@ -341,6 +328,30 @@ class FoiaAnnualReportUtilities {
 
       return normalized;
     }, {});
+  }
+
+  /**
+   * Recursively build an object based on a path, assigning a value to the last path.
+   *
+   * @param {Object} object
+   *   An object to assign the value to.
+   * @param {string} path
+   *   The path to recurse to where the value should be assigned, in dot notation.
+   * @param {*} value
+   *   The value to assign to the last field in the path.
+   * @returns {*}
+   */
+  static assignDeep(object, path, value) {
+    const parts = path.split('.');
+    const key = parts.shift();
+    if (parts.length === 0) {
+      object[key] = value;
+      return object;
+    }
+    const next = object[key] || {};
+    object[key] = FoiaAnnualReportUtilities.assignDeep(next, parts.join('.'), value);
+
+    return object;
   }
 }
 
