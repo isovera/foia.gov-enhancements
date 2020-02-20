@@ -164,7 +164,9 @@ class FoiaAnnualReportUtilities {
       // Check for nested values that can be flattened and build an array
       // of field objects.  If there are no nested values to flatten, the
       // data variable will be equivalent to report.get(field).
-      const data = report.get(field).reduce((flattened, fieldValue) => (
+      let data = report.get(field);
+      data = Array.isArray(data) ? data : [];
+      data = data.reduce((flattened, fieldValue) => (
         flattened.concat(...FoiaAnnualReportUtilities.maybeFlatten(fieldValue))
       ), []);
 
