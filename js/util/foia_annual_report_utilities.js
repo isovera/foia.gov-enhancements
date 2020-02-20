@@ -256,7 +256,7 @@ class FoiaAnnualReportUtilities {
    */
   static flatten(raw = {}, field) {
     const data = raw[field] || false;
-    if (data === false) {
+    if (data === false || !Array.isArray(data) || data.length <= 0) {
       return [raw];
     }
 
