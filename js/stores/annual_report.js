@@ -22,7 +22,7 @@ class AnnualReportStore extends Store {
 
 
   static getSelectedAgencies() {
-    const { selectedAgencies } = annualReportDataFormStore.getState();
+    const selectedAgencies = annualReportDataFormStore.buildSelectedAgencies();
     return selectedAgencies.reduce((formatted, selected) => {
       switch (selected.type) {
         case 'agency': {
