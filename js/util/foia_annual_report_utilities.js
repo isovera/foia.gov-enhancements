@@ -37,7 +37,7 @@ class FoiaAnnualReportUtilities {
     // zip data from multiple report fields into a single object
     // based on the component abbreviation.
     // The data types below that don't follow the default convention have
-    // nested data that, when flattened out,can result in multiple rows
+    // nested data that, when flattened out, can result in multiple rows
     // per component.  These must be merged on a unique identifying key
     // that is not the component abbreviation so that multiple rows per
     // component don't overwrite and merge together in unexpected ways.
