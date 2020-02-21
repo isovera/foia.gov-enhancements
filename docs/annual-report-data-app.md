@@ -254,7 +254,7 @@ Example use:
 
 ### Utilities
 
-### FoiaAnnualReportUtilities
+#### FoiaAnnualReportUtilities
 
 A utility class with static methods that can be used to get an
 array of data objects, suitable to be passed to tabulator,
