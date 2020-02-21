@@ -32,6 +32,15 @@ class FoiaAnnualReportUtilities {
    *   ]
    */
   static getDataForType(report, dataType) {
+    // By default, data can safely merge fields into an object keyed
+    // by component abbreviation.  This will, if required by the data type,
+    // zip data from multiple report fields into a single object
+    // based on the component abbreviation.
+    // The data types below that don't follow the default convention have
+    // nested data that, when flattened out,can result in multiple rows
+    // per component.  These must be merged on a unique identifying key
+    // that is not the component abbreviation so that multiple rows per
+    // component don't overwrite and merge together in unexpected ways.
     if (dataType.id === 'group_vi_c_3_reasons_for_denial_') {
       return FoiaAnnualReportUtilities.mergeBy(
         report,
