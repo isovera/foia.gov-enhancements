@@ -19,12 +19,16 @@ class FoiaModal extends Component {
 
   openModal() {
     this.setState({ modalIsOpen: true });
+    const bodyWidth = document.body.offsetWidth;
+    const windowWidth = window.innerWidth;
+    document.body.style.width = `calc(100% - ${windowWidth - bodyWidth}px)`;
   }
 
   closeModal(e) {
     this.props.onClose(e);
 
     this.setState({ modalIsOpen: false });
+    document.body.style.width = '';
   }
 
   handleSubmit(e) {

@@ -104,7 +104,7 @@ $background-color: $color-primary-darkest;
   position: fixed;
 
   @media all and (min-width: $small-screen) {
-    right: 2rem;
+    left: calc(100vw - 4rem - 102px); // 102px is the approximate width of the button.
   }
 
   @media print {
