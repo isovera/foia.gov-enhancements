@@ -261,6 +261,21 @@ Example use:
 
 ### Utilities
 
+#### FoiaAnnualReportFilterUtilities
+
+A utility class with static methods that can be used to compare
+results field values to filter values, removing rows that don't
+pass any of the applied filters.
+
+Example use:
+```
+import FoiaAnnualReportFilterUtilities from 'utils/foia_annual_report_filter_utilities';
+...
+const filtered = FoiaAnnualReportFilterUtilities.filter(
+  rows,
+  FoiaAnnualReportFilterUtilities.getFiltersForType(dataType.id),
+);
+```
 
 #### FoiaAnnualReportUtilities
 
