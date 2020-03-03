@@ -261,6 +261,7 @@ Example use:
 
 ### Utilities
 
+
 #### FoiaAnnualReportFilterUtilities
 
 A utility class with static methods that can be used to compare
