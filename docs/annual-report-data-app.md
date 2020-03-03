@@ -277,6 +277,41 @@ const filtered = FoiaAnnualReportFilterUtilities.filter(
 );
 ```
 
+
+#### FoiaAnnualReportRequestBuilder
+
+A utility class to facilitate building requests to the
+`/api/annual_foia_report` endpoint.  It adds convenience methods
+on top of the JsonApi class that simplify transforming form values
+such as selected agencies, data types, or fiscal years, into
+parameters on the api request.
+
+Example use:
+
+```
+import FoiaAnnualReportRequestBuilder from 'utils/foia_annual_report_request_builder.js';
+...
+const builder = new FoiaAnnualReportRequestBuilder();
+
+builder
+  .includeOverallFields({id: 'data_type_id'})
+  .includeDataTypes({id: 'data_type_id'})
+  .addOrganizationsGroup({
+    agencies: ['DOJ', 'DOC'],
+    components: ['OIG', 'OIP'],
+  })
+  .addDataTypeFiltersGroup([{
+    op: 'greater_than',
+    filterField: 'field_admin_app_viia.field_sim_med.value',
+    compareValue: 10,
+  }], 'data_type_id')
+  .addFiscalYearsGroup([2018, 2019])
+  .request
+  .paginate('/annual_foia_report', reportActions.receiveAnnualReportData)
+  .then(reportActions.completeAnnualReportData);
+```
+
+
 #### FoiaAnnualReportUtilities
 
 A utility class with static methods that can be used to get an
