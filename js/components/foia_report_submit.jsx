@@ -45,14 +45,7 @@ class FoiaReportDataSubmit extends Component {
   }
 
   makeApiRequests() {
-    const dataTypes = this.props.selectedDataTypes.reduce((selectedTypes, type) => {
-      const typeList = selectedTypes[type.id] || [];
-      typeList.push(type);
-      selectedTypes[type.id] = typeList;
-
-      return selectedTypes;
-    }, {});
-    reportActions.fetchAnnualReportData(dataTypes);
+    reportActions.fetchAnnualReportData(this.props.selectedDataTypes);
   }
 
   render() {
