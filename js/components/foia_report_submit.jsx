@@ -40,12 +40,8 @@ class FoiaReportDataSubmit extends Component {
         // Resets focus to body when (fake) results page loads.
         document.body.focus();
       }
-      this.makeApiRequests();
+      reportActions.fetchAnnualReportData(this.props.selectedDataTypes);
     }
-  }
-
-  makeApiRequests() {
-    reportActions.fetchAnnualReportData(this.props.selectedDataTypes);
   }
 
   render() {
