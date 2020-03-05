@@ -269,6 +269,30 @@ Used in:
  * AnnualReportDataPage
 
 
+#### Foia Report Form Section Three
+
+A wrapper for the third section of the FOIA report form in which a user can
+select one or more fiscal years for which they would like to see report data.
+
+Props:
+ * `fiscalYears`: An array of all fiscal years available for selection.
+ * `selectedFiscalYears`: An array of the fiscal years that have been selected.
+ * `fiscalYearsDisplayError`:  A boolean indicating that a validation error message
+    should be displayed.
+
+Example Use:
+```
+<FoiaReportFormSectionThree
+  fiscalYears={[2019, 2018, 2017]}
+  selectedFiscalYears={[2019]}
+  fiscalYearsDisplayError={false}
+/>
+```
+
+Used in:
+ * AnnualReportDataPage
+
+
 #### USWDS Select Widget
 
 A simple component which can be used to create a select list of items which
