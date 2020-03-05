@@ -139,6 +139,8 @@ Props:
  * `agencyFinderDataProgress`: The amount of progress made in populating the agencyComponent store.
  * `selectedAgency` : An array of agencies or components that have been selected in the report form.
  * `isDisabled`: A boolean indicating that the field is disabled.
+ * `agencyComponentDisplayError`: A boolean indicating that a validation error message
+   should be displayed.
 
 Example Use:
 ```
@@ -149,9 +151,14 @@ import ReportAgencyComponentTypeahead from './report_agency_component_typeahead'
   agencyComponents={agencyComponents}
   agencyFinderDataProgress={agencyFinderDataProgress}
   agencyFinderDataComplete={agencyFinderDataComplete}
+  isDisabled={isDisabled}
   selectedAgency={selectedAgency}
+  agencyComponentDisplayError={agencyComponentDisplayError}
 />
 ```
+
+Used In:
+ * ReportAgencyComponentFilter
 
 
 #### Add Link
