@@ -184,6 +184,7 @@ class ReportAgencyComponentTypeahead extends Component {
 
 
   handleKeyPress(e) {
+    // Selects the first suggestion when the enter key is pressed.
     if (e.key !== 'Enter') {
       return;
     }
