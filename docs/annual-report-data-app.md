@@ -239,6 +239,36 @@ Used in:
  * AnnualReportDataPage
 
 
+#### Foia Report Form Section Two
+
+A wrapper for the second section of the FOIA report form in which a user can
+select one or more data types and add filters to the report.
+
+Props:
+ * `dataTypes`: A map of all the data types available for selection and information
+   about each type including the fields in that type and which fields are filterable.
+   See `www.foia.gov/api/annual-report-form/report_data_map.json` for more information
+   about each type.
+ * `dataTypeOptions`: A list data type objects that include a value and label which
+   is passed down to the `USWDSSelectWidget` in order to build the data types select field.
+ * `selectedDataTypes`: An array of objects for data types that have been selected on the form.
+ * `dataTypeDisplayError`: A boolean indicating that a validation error message
+    should be displayed.
+
+Example Use:
+```
+<FoiaReportFormSectionTwo
+  dataTypes={dataTypes}
+  dataTypeOptions={dataTypeOptions}
+  selectedDataTypes={selectedDataTypes}
+  dataTypeDisplayError={dataTypeDisplayError}
+/>
+```
+
+Used in:
+ * AnnualReportDataPage
+
+
 #### USWDS Select Widget
 
 A simple component which can be used to create a select list of items which
