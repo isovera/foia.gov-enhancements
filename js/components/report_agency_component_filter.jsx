@@ -121,6 +121,9 @@ class ReportAgencyComponentFilter extends Component {
       isDisabled,
     } = this.props;
 
+    // Determines the selection type (agency or component) and if it has child components
+    // or is centralized. Only agencies that have multiple components should display
+    // a "Select Agency Components" button & modal.
     const agencyIsSelected = (this.props.selectedAgency.id !== 0 && this.props.selectedAgency.type === 'agency') || false;
     const isCentralizedAgency = this.props.selectedAgency.component_count <= 1 || false;
 
