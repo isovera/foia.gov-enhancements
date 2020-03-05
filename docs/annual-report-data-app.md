@@ -248,7 +248,10 @@ Used in:
 #### Foia Report Form Section Two
 
 A wrapper for the second section of the FOIA report form in which a user can
-select one or more data types and add filters to the report.
+select one or more data types and add filters to the report.  The component
+handles displaying a `FoiaReportDataTypeFilter` for each selected data type
+and an "Add Another Data Type" link that allows users to add up to three data
+types.
 
 Props:
  * `dataTypes`: A map of all the data types available for selection and information
