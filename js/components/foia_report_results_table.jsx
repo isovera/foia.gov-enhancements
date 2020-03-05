@@ -71,8 +71,7 @@ class FoiaReportResultsTable extends Component {
     const currentScrollPosition = this.tabulator.columnManager.element.scrollLeft;
 
     // If the focused element is already fully in view, make sure the
-    // table body is scrolled the same way as the headings because
-    // chrome will sometimes scroll an element to the middle of the screen.
+    // table body is scrolled to the same position as the headings.
     // Otherwise do nothing.
     if (this.tabulator.columnManager.element.scrollLeft > boundaryRight
       && this.tabulator.columnManager.element.scrollLeft < boundaryLeft) {
