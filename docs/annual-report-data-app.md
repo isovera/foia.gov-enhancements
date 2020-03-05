@@ -209,14 +209,20 @@ set the `applied` property on the filter to `false`.
 #### Foia Report Form Section One
 
 A wrapper for the first section of the FOIA report form in which a user can
-select one or more Agencies or Components.
+select one or more Agencies or Components.  The component handles displaying
+a `ReportAgencyComponentFilter` for each selected agency, an
+"Add Another Agency or Component" link for users to select multiple agencies,
+and a "Select All Agencies" link as a shortcut for users that want to see data
+for all agencies.
 
 Props:
  * `agencies`: A map of agencies that can be searched.
  * `agencyComponents`: A list of components that can be searched.
  * `agencyFinderDataComplete`: Whether or not the agencyComponent store is populated.
  * `agencyFinderDataProgress`: The amount of progress made in populating the agencyComponent store.
- * `selectedAgencies` : An array of agencies or components that have been selected in the report form.
+ * `selectedAgencies` : An array of agency or component objects that have been selected in the report form.
+   Agency objects include a `components` property which is an array of the agency's child components.
+   Component objects include an `agency` property which contains the parent agency information.
  * `agencyComponentDisplayError`: A boolean indicating that a validation error message
     should be displayed.
  * `allAgenciesSelected`: A boolean indicating whether or not the user has selected to view data
