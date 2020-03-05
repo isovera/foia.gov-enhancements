@@ -206,6 +206,39 @@ the `filter` property on the selected data type back to the default values and
 set the `applied` property on the filter to `false`.
 
 
+#### Foia Report Form Section One
+
+A wrapper for the first section of the FOIA report form in which a user can
+select one or more Agencies or Components.
+
+Props:
+ * `agencies`: A map of agencies that can be searched.
+ * `agencyComponents`: A list of components that can be searched.
+ * `agencyFinderDataComplete`: Whether or not the agencyComponent store is populated.
+ * `agencyFinderDataProgress`: The amount of progress made in populating the agencyComponent store.
+ * `selectedAgencies` : An array of agencies or components that have been selected in the report form.
+ * `agencyComponentDisplayError`: A boolean indicating that a validation error message
+    should be displayed.
+ * `allAgenciesSelected`: A boolean indicating whether or not the user has selected to view data
+   for all agencies.
+
+Example Use:
+```
+<FoiaReportFormSectionOne
+  agencies={agencies}
+  agencyComponents={agencyComponents}
+  agencyFinderDataComplete={agencyFinderDataComplete}
+  agencyFinderDataProgress={agencyFinderDataProgress}
+  selectedAgencies={selectedAgencies}
+  agencyComponentDisplayError={agencyComponentDisplayError}
+  allAgenciesSelected={allAgenciesSelected}
+/>
+```
+
+Used in:
+ * AnnualReportDataPage
+
+
 #### USWDS Select Widget
 
 A simple component which can be used to create a select list of items which
