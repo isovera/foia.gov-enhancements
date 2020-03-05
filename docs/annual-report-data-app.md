@@ -280,8 +280,10 @@ Used in:
 
 #### Foia Report Form Section Three
 
-A wrapper for the third section of the FOIA report form in which a user can
-select one or more fiscal years for which they would like to see report data.
+The third section of the FOIA report form in which a user can select one or more
+fiscal years for which they would like to see report data.  The component
+displays a checkbox list of fiscal years, as well as "Select All" and "Select None"
+convenience links.
 
 Props:
  * `fiscalYears`: An array of all fiscal years available for selection.
