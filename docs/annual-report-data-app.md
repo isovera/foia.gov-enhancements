@@ -181,7 +181,7 @@ Props:
  * `selectedDataType`: The object corresponding to the currently selected data type.
  * `dataTypeDisplayError`: A boolean indicating that a validation error message
    should be displayed.
- * `fieldsDisplayed`: The number of Agency or Component Name fields displayed,
+ * `fieldsDisplayed`: The number of Data Type fields displayed,
    used to determine if a remove button should be displayed.
 
 Example Use:
